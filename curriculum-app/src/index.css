@@ -1,0 +1,162 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: Inter, system-ui, sans-serif;
+  }
+
+  body {
+    @apply bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/20 dark:border-gray-700/50 shadow-lg;
+  }
+
+  .nav-link {
+    @apply px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 text-gray-700 dark:text-gray-300;
+  }
+
+  .nav-link.active {
+    @apply bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300;
+  }
+
+  .nav-link:hover {
+    @apply bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100;
+  }
+
+  .progress-bar {
+    @apply h-2 bg-gray-200 rounded-full overflow-hidden;
+  }
+
+  .progress-fill {
+    @apply h-full bg-gradient-to-r from-primary-500 to-primary-600 transition-all duration-500 ease-out;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Enhanced Typography */
+.prose {
+  @apply text-gray-700 dark:text-gray-200;
+  line-height: 1.75;
+}
+
+.prose h1 {
+  @apply text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6 mt-8 first:mt-0;
+}
+
+.prose h2 {
+  @apply text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-4 mt-8 first:mt-0;
+}
+
+.prose h3 {
+  @apply text-xl font-medium text-gray-700 dark:text-gray-200 mb-3 mt-6 first:mt-0;
+}
+
+.prose h4 {
+  @apply text-lg font-medium text-gray-700 dark:text-gray-200 mb-2 mt-4 first:mt-0;
+}
+
+.prose h5 {
+  @apply text-base font-medium text-gray-700 dark:text-gray-200 mb-2 mt-3 first:mt-0;
+}
+
+.prose h6 {
+  @apply text-sm font-medium text-gray-700 dark:text-gray-200 mb-2 mt-3 first:mt-0;
+}
+
+.prose p {
+  @apply mb-4 leading-relaxed text-gray-700 dark:text-gray-200;
+}
+
+.prose ul,
+.prose ol {
+  @apply mb-4 space-y-2 text-gray-700 dark:text-gray-200;
+}
+
+.prose li {
+  @apply leading-relaxed text-gray-700 dark:text-gray-200;
+}
+
+.prose strong {
+  @apply font-bold text-gray-900 dark:text-gray-100;
+}
+
+.prose em {
+  @apply italic text-gray-800 dark:text-gray-200;
+}
+
+.prose blockquote {
+  @apply border-l-4 border-primary-500 dark:border-primary-400 pl-4 italic text-gray-600 dark:text-gray-300 my-4 bg-gray-50 dark:bg-gray-800 p-3 rounded-r-lg;
+}
+
+/* Code syntax highlighting */
+pre {
+  @apply bg-gray-900 dark:bg-gray-800 text-gray-100 dark:text-gray-100 p-4 rounded-lg overflow-x-auto font-mono text-sm mb-4 border border-gray-300 dark:border-gray-600;
+  line-height: 1.5;
+}
+
+code {
+  @apply bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 px-2 py-1 rounded text-sm font-mono font-semibold;
+}
+
+pre code {
+  @apply bg-transparent text-gray-100 dark:text-gray-100 p-0 font-normal;
+}
+
+/* Enhanced table styling */
+.prose table {
+  @apply w-full border-collapse border border-gray-300 dark:border-gray-600 mb-4 rounded-lg overflow-hidden;
+}
+
+.prose th {
+  @apply bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 px-4 py-3 text-left font-semibold text-gray-900 dark:text-gray-100;
+}
+
+.prose td {
+  @apply border border-gray-300 dark:border-gray-600 px-4 py-3 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800;
+}
+
+/* Better spacing for nested elements */
+.prose ul ul,
+.prose ol ol,
+.prose ul ol,
+.prose ol ul {
+  @apply mt-2 mb-2;
+}
+
+/* Link improvements */
+.prose a {
+  @apply text-primary-600 hover:text-primary-700 dark:text-primary-300 dark:hover:text-primary-200 underline underline-offset-2 font-medium;
+}
+
+/* Image styling */
+.prose img {
+  @apply rounded-lg shadow-lg mx-auto my-6;
+}
+
+/* HR styling */
+.prose hr {
+  @apply border-gray-300 dark:border-gray-600 my-8;
+}
