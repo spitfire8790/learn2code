@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "buildCommand": "cd curriculum-app && npm install && npm run build",
+  "outputDirectory": "curriculum-app/dist",
+  "framework": "vite",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
