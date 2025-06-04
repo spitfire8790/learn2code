@@ -1,7 +1,9 @@
 # Module 3.1: Mapping Technologies
 
 ## Learning Objectives
+
 By the end of this module, you will be able to:
+
 - Understand modern web mapping technologies and their applications in property analysis
 - Implement interactive maps using Mapbox GL JS for property visualization
 - Integrate Leaflet for specialized mapping requirements
@@ -9,6 +11,7 @@ By the end of this module, you will be able to:
 - Build responsive, performant mapping interfaces for property platforms
 
 ## Prerequisites
+
 - Completion of Phase 2: React Development Mastery
 - Strong understanding of JavaScript ES6+ and React patterns
 - Basic knowledge of geographic concepts and coordinate systems
@@ -35,6 +38,7 @@ Web mapping has evolved dramatically from simple static images to dynamic, inter
 **Client-side rendering**: Contemporary mapping libraries perform rendering in the browser, enabling real-time styling changes and smooth user interactions.
 
 **For property applications, this evolution means:**
+
 - Real-time property boundary updates without page refreshes
 - Dynamic styling based on property values, market trends, or user preferences
 - Smooth zoom and pan experiences that keep users engaged
@@ -102,7 +106,7 @@ Effective layer organization is crucial for property applications displaying mul
 
 Property mapping applications require sophisticated interaction patterns that balance functionality with usability:
 
-**Property selection**: Click and hover behaviors that provide immediate feedback while maintaining map responsiveness.
+**Property selection**: Click and hover behaviours that provide immediate feedback while maintaining map responsiveness.
 
 **Search and filtering**: Spatial query interfaces that allow users to find properties based on location, features, or market criteria.
 
@@ -122,7 +126,7 @@ Leaflet prioritizes simplicity and extensibility, making it ideal for property a
 
 **API simplicity**: Straightforward programming interface that reduces development time and makes code more maintainable.
 
-**Cross-platform compatibility**: Consistent behavior across different browsers and devices, crucial for property applications serving diverse user bases.
+**Cross-platform compatibility**: Consistent behaviour across different browsers and devices, crucial for property applications serving diverse user bases.
 
 ### Integration with React Applications
 
@@ -244,7 +248,7 @@ Property searches increasingly happen on mobile devices, requiring touch-optimiz
 
 **Touch target sizing**: Ensuring map controls and interactive elements are appropriately sized for touch interaction without being overwhelming.
 
-**Gesture handling**: Implementing intuitive touch gestures for map navigation while avoiding conflicts with standard mobile browser behaviors.
+**Gesture handling**: Implementing intuitive touch gestures for map navigation while avoiding conflicts with standard mobile browser behaviours.
 
 **Mobile-specific controls**: Designing map controls that work effectively with limited screen space and touch-based interaction patterns.
 
@@ -277,21 +281,27 @@ Property professionals often work in areas with limited connectivity, making off
 ## Practical Exercises
 
 ### Exercise 1: Interactive Property Map
+
 Build a comprehensive property mapping interface:
+
 1. Initialize Mapbox GL JS with custom styling appropriate for property visualization
 2. Load and display property boundary data with appropriate styling and interaction
 3. Implement property selection with detailed popup information and smooth user experience
 4. Add search functionality that filters properties spatially and by attributes
 
 ### Exercise 2: Multi-Source Data Integration
+
 Create a mapping application that combines multiple data sources:
+
 1. Integrate government cadastral data with custom property information
 2. Handle coordinate system transformations between different data sources
 3. Implement appropriate error handling for data quality issues
 4. Create efficient data loading strategies for large property datasets
 
 ### Exercise 3: Mobile-Optimized Property Search
+
 Develop a mobile-first property mapping application:
+
 1. Design touch-optimized map controls and property interaction
 2. Implement efficient data loading for mobile network constraints
 3. Add offline capabilities for core property search functionality
@@ -311,6 +321,7 @@ This module established comprehensive mapping technology skills essential for mo
 These mapping technology skills enable you to build sophisticated property applications that handle complex spatial data effectively while providing intuitive user experiences across different devices and use cases.
 
 ## Navigation
+
 - [← Previous: Phase 2 - React Development Mastery](../Phase-2-React-Development-Mastery/README.md)
 - [Next: Module 3.2 - Spatial Data Processing →](./Module-3.2-Spatial-Data-Processing.md)
 - [↑ Back to Phase 3 Overview](./README.md)

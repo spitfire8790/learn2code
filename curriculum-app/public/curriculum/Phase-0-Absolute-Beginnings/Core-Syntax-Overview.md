@@ -74,7 +74,7 @@ These operators perform mathematical calculations - the building blocks of any c
 | ++     | Increment   | x++      | Adds 1 to x                   | Loops, counters            |
 | --     | Decrement   | x--      | Subtracts 1 from x            | Loops, counters            |
 
-**Key insight:** The `+` operator has dual behavior - it adds numbers but concatenates strings. JavaScript will convert numbers to strings when mixed: `5 + "3"` becomes `"53"`, not `8`.
+**Key insight:** The `+` operator has dual behaviour - it adds numbers but concatenates strings. JavaScript will convert numbers to strings when mixed: `5 + "3"` becomes `"53"`, not `8`.
 
 **Practical examples:**
 
@@ -111,53 +111,20 @@ Bitwise operators work with the binary representation of numbers. While less com
 
 ```js
 // Binary representation and bitwise operations
-// Let's look at the numbers in binary:
-// mask = 0b1100;  (This is binary for decimal 12: 8 + 4 + 0 + 0)
-// value = 0b1010; (This is binary for decimal 10: 8 + 0 + 2 + 0)
-let mask = 0b1100;
-let value = 0b1010;
-
-// The bitwise AND (&) compares each bit:
-//   1100 (mask)
-// & 1010 (value)
-// ------
-//   1000 (result is 8 in decimal, because only the first bit was 1 in both numbers)
-let result = mask & value;
-console.log(result); // Output: 8
+let mask = 0b1100; // Binary: 1100 (decimal 12)
+let value = 0b1010; // Binary: 1010 (decimal 10)
+let result = mask & value; // Binary: 1000 (decimal 8)
 
 // Real-world example: Permission checking
 const PERMISSIONS = {
-  READ: 1, // Binary: 0001
-  WRITE: 2, // Binary: 0010
-  DELETE: 4, // Binary: 0100
-  ADMIN: 8, // Binary: 1000 (Can be any combination, often powers of 2)
+  READ: 1, // 0001
+  WRITE: 2, // 0010
+  DELETE: 4, // 0100
+  ADMIN: 8, // 1000
 };
 
-// User is granted READ and WRITE permissions.
-// The bitwise OR (|) combines permissions:
-//   0001 (READ)
-// | 0010 (WRITE)
-// ------
-//   0011 (This is 3 in decimal, representing combined permissions)
-let userPermissions = PERMISSIONS.READ | PERMISSIONS.WRITE;
-console.log(userPermissions); // Output: 3
-
-// To check if a user has a specific permission (e.g., WRITE):
-// We use bitwise AND (&) with the permission we're checking for.
-//   0011 (userPermissions)
-// & 0010 (PERMISSIONS.WRITE)
-// ------
-//   0010 (This is 2 in decimal. Since it's not 0, the permission exists)
-let hasWriteAccess = (userPermissions & PERMISSIONS.WRITE) !== 0;
-console.log(hasWriteAccess); // Output: true
-
-// To check for a permission the user doesn't have (e.g., DELETE):
-//   0011 (userPermissions)
-// & 0100 (PERMISSIONS.DELETE)
-// ------
-//   0000 (This is 0 in decimal. Since it's 0, the permission does NOT exist)
-let hasDeleteAccess = (userPermissions & PERMISSIONS.DELETE) !== 0;
-console.log(hasDeleteAccess); // Output: false
+let userPermissions = PERMISSIONS.READ | PERMISSIONS.WRITE; // User can read and write
+let hasWriteAccess = (userPermissions & PERMISSIONS.WRITE) !== 0; // Check specific permission
 ```
 
 ### Other Operators & Syntax
@@ -181,39 +148,16 @@ console.log(hasDeleteAccess); // Output: false
 **Examples:**
 
 ```js
-let obj = { nested: { prop: "Hello!" } };
-let arr1 = [1, 2, 3];
-
-// Optional Chaining (?.) - Safely access nested properties.
-// If 'obj' or 'obj.nested' is null or undefined, 'value' will be undefined instead of causing an error.
-let value = obj?.nested?.prop;
-console.log(value); // Output: "Hello!"
-
-let missingValue = obj?.other?.prop;
-console.log(missingValue); // Output: undefined
-
-// Spread operator (...) for arrays - Expands 'arr1' and adds 4 to create a new array.
-let arr2 = [...arr1, 4];
-console.log(arr2); // Output: [1, 2, 3, 4]
-
-// Rest parameter (...) for functions - Collects all passed arguments into an array called 'nums'.
+let value = obj?.nested?.prop; // Safe access
+let arr2 = [...arr1, 4]; // Spread
 function sum(...nums) {
-  // The reduce() method executes a reducer function on each element of the array,
-  // resulting in a single output value.
-  // 'a' is the accumulator (starts at 0), 'b' is the current element.
   return nums.reduce((a, b) => a + b, 0);
+} // Rest
+if ("name" in obj) {
+  /* property exists */
 }
-console.log(sum(1, 2, 3)); // Output: 6
-console.log(sum(5, 10, 15, 20)); // Output: 50
-
-// 'in' operator - Checks if a property name (as a string) exists in an object.
-if ("nested" in obj) {
-  console.log("Property 'nested' exists in obj"); // This will be logged
-}
-
-// 'instanceof' operator - Checks if an object is an instance of a particular constructor (e.g., Array).
-if (arr1 instanceof Array) {
-  console.log("arr1 is an Array"); // This will be logged
+if (arr instanceof Array) {
+  /* is array */
 }
 ```
 
@@ -386,63 +330,32 @@ Functions are reusable blocks of code that perform specific tasks. JavaScript of
 
 - **Property access:**
   ```js
-  const obj = { key: "value" };
-  console.log(obj.key); // Output: "value"
-  console.log(obj["key"]); // Output: "value"
+  obj.key;
+  obj["key"];
   ```
-- **Shorthand property:** (When variable name and property key are the same)
+- **Shorthand property:**
   ```js
   let x = 1;
-  let y = "hello";
-  let obj = { x, y }; // Same as { x: x, y: y }
-  console.log(obj); // Output: { x: 1, y: "hello" }
+  let obj = { x };
   ```
-- **Computed property:** (Use an expression for a property key)
+- **Computed property:**
   ```js
-  let keyName = "age";
-  let person = {
-    name: "Alice",
-    [keyName]: 30, // The property name becomes "age"
-  };
-  console.log(person); // Output: { name: "Alice", age: 30 }
+  let key = "age";
+  let obj = { [key]: 42 };
   ```
-- **Method syntax:** (Functions as properties of an object)
-
+- **Method syntax:**
   ```js
-  let greeter = {
-    message: "Hello",
-    greetUser(userName) {
-      return `${this.message}, ${userName}!`;
+  let obj = {
+    greet() {
+      return "hi";
     },
   };
-  console.log(greeter.greetUser("Bob")); // Output: "Hello, Bob!"
   ```
-
-- **Common Array Methods:**
-  JavaScript provides many powerful methods for working with arrays. Here are a few fundamental ones:
-
+- **Array methods:**
   ```js
-  const numbers = [1, 2, 3, 4, 5];
-
-  // arr.map(): Creates a new array by applying a function to each element.
-  // (element) => element * 2  -- This function doubles each element.
-  const doubledNumbers = numbers.map((num) => num * 2);
-  console.log(doubledNumbers); // Output: [2, 4, 6, 8, 10]
-
-  // arr.filter(): Creates a new array with elements that pass a test (return true).
-  // (element) => element > 2  -- This function checks if an element is greater than 2.
-  const numbersGreaterThanTwo = numbers.filter((num) => num > 2);
-  console.log(numbersGreaterThanTwo); // Output: [3, 4, 5]
-
-  // arr.reduce(): Applies a function against an accumulator and each element
-  // to reduce the array to a single value.
-  // (accumulator, currentValue) => accumulator + currentValue  -- This function sums elements.
-  // 0 is the initial value of the accumulator.
-  const sumOfNumbers = numbers.reduce(
-    (accumulator, currentValue) => accumulator + currentValue,
-    0
-  );
-  console.log(sumOfNumbers); // Output: 15 (1+2+3+4+5)
+  arr.map((x) => x * 2);
+  arr.filter((x) => x > 0);
+  arr.reduce((a, b) => a + b, 0);
   ```
 
 ### Error Handling
@@ -536,7 +449,7 @@ async function fetchUser() {
   border-radius: 8px;
 }
 a:hover {
-  color: red;
+  colour: red;
 }
 ```
 

@@ -1,7 +1,9 @@
 # Module 3.2: Spatial Data Processing
 
 ## Learning Objectives
+
 By the end of this module, you will be able to:
+
 - Process and analyze spatial data using Turf.js for property analysis workflows
 - Work with GeoJSON and vector data formats in property applications
 - Integrate ArcGIS services for government and commercial property data
@@ -9,6 +11,7 @@ By the end of this module, you will be able to:
 - Build efficient spatial data processing pipelines for property platforms
 
 ## Prerequisites
+
 - Completion of Module 3.1: Mapping Technologies
 - Understanding of geometric concepts and spatial relationships
 - Experience with JavaScript data processing and API integration
@@ -18,7 +21,7 @@ By the end of this module, you will be able to:
 
 Spatial data processing forms the analytical backbone of sophisticated property applications. While mapping technologies handle visualization and user interaction, spatial data processing enables the complex analysis that drives property insights: calculating developable areas, analyzing accessibility, determining flood risks, and identifying investment opportunities.
 
-This module explores the tools and techniques that enable property applications to transform raw spatial data into actionable insights. From basic geometric operations to complex spatial analysis workflows, these capabilities distinguish basic property websites from advanced analytical platforms.
+This module explores the tools and techniques that enable property applications to transform raw spatial data into actionable insights. From basic geometric operations to complex spatial analysis workflows, these capabilities distinguish basic websites from advanced analytical platforms.
 
 Understanding spatial data processing is essential for building property applications that can answer complex questions about location, accessibility, development potential, and market opportunities.
 
@@ -37,6 +40,7 @@ Property applications work with diverse spatial data types, each serving differe
 **Raster data**: Satellite imagery, elevation models, and demographic surfaces that provide continuous spatial information across geographic areas.
 
 **For property analysis, data type selection affects:**
+
 - Analytical capabilities and question types that can be answered
 - Processing performance and computational requirements
 - Visualization options and user interface design
@@ -283,21 +287,27 @@ Immediate spatial analysis supports responsive property applications:
 ## Practical Exercises
 
 ### Exercise 1: Property Analysis Toolkit
+
 Build a comprehensive spatial analysis system:
+
 1. Implement geometric operations for property area calculations and boundary analysis
 2. Create proximity analysis tools for amenity access and service area calculations
 3. Develop spatial query interfaces for complex property search requirements
 4. Add performance optimization for processing large property datasets
 
 ### Exercise 2: Government Data Integration
+
 Create a system for integrating official property data:
+
 1. Connect to ArcGIS services for cadastral and planning information
 2. Implement coordinate transformation between different spatial reference systems
 3. Create data validation and quality assurance workflows
 4. Build caching strategies for reliable and performant data access
 
 ### Exercise 3: Real-time Spatial Processing
+
 Develop a real-time property analysis platform:
+
 1. Integrate streaming property market data with spatial analysis capabilities
 2. Implement change detection for property boundaries and zoning updates
 3. Create automated analysis workflows triggered by data updates
@@ -317,6 +327,7 @@ This module established advanced spatial data processing skills essential for so
 These spatial data processing skills enable you to build property applications that transform raw spatial data into actionable insights for property professionals and investors.
 
 ## Navigation
+
 - [← Previous: Module 3.1 - Mapping Technologies](./Module-3.1-Mapping-Technologies.md)
 - [Next: Module 3.3 - Web Mapping Services →](./Module-3.3-Web-Mapping-Services.md)
 - [↑ Back to Phase 3 Overview](./README.md)

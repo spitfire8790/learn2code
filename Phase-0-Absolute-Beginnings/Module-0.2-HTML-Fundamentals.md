@@ -3,7 +3,7 @@
 ## Learning Objectives
 By the end of this module, you will be able to:
 - Understand HTML's role in structuring web content
-- Create semantic, accessible HTML for property websites
+- Create semantic, accessible HTML for websites
 - Build forms for property search and contact functionality
 - Implement proper document structure and organisation
 - Apply best practices for HTML in professional property applications
@@ -17,7 +17,7 @@ By the end of this module, you will be able to:
 
 HTML (HyperText Markup Language) is the foundation of every website and web application. Think of HTML as the skeleton that gives structure to your content - just as a house needs a strong frame before adding walls and decoration, a website needs proper HTML structure before adding styles and interactivity.
 
-For property websites, HTML becomes particularly important because you'll be presenting complex information clearly: property details, pricing, features, contact forms, and search functionality. Well-structured HTML ensures your content is accessible to all users, including those using screen readers, and provides a solid foundation for styling and functionality.
+For websites, HTML becomes particularly important because you'll be presenting complex information clearly: property details, pricing, features, contact forms, and search functionality. Well-structured HTML ensures your website is accessible, easy to navigate, and search engine friendly.
 
 ## Section 1: Understanding HTML Structure
 
@@ -30,7 +30,7 @@ HTML works through **elements** - pieces of content wrapped in **tags**. Think o
 <opening-tag>Content</closing-tag>
 ```
 
-**Why this matters for property websites:**
+**Why this matters for websites:**
 - Search engines understand your content better
 - Screen readers can navigate your site effectively
 - Styling becomes more predictable and maintainable
@@ -59,7 +59,7 @@ Every HTML document follows a standard structure, like the blueprint of a house:
 - **head section**: Metadata that browsers and search engines need
 - **body section**: All the visible content users see
 
-**For property websites, the head section typically includes:**
+**For websites, the head section typically includes:**
 - Page title (crucial for search engine results)
 - Description (appears in search results)
 - Keywords related to property and location
@@ -68,7 +68,7 @@ Every HTML document follows a standard structure, like the blueprint of a house:
 
 ### Semantic HTML: Giving Meaning to Content
 
-Semantic HTML means choosing tags based on **meaning** rather than appearance. This is crucial for property websites because it improves:
+Semantic HTML means choosing tags based on **meaning** rather than appearance. This is crucial for websites because it improves:
 - **Search engine optimisation**: Better ranking in property searches
 - **Accessibility**: Screen readers understand your content structure
 - **Maintainability**: Code is easier to update and modify
@@ -87,7 +87,7 @@ Use meaningful elements:
 <p>This luxury home features...</p>
 ```
 
-**Key semantic elements for property websites:**
+**Key semantic elements for websites:**
 - `<header>`: Site navigation and branding
 - `<main>`: Primary content area
 - `<section>`: Distinct content sections (property listings, contact info)
@@ -95,11 +95,11 @@ Use meaningful elements:
 - `<aside>`: Sidebar content (filters, related properties)
 - `<footer>`: Contact information, legal notices
 
-## Section 2: Content Structure for Property Websites
+## Section 2: Content Structure for Websites
 
 ### Headings: Creating Content Hierarchy
 
-Headings create a logical structure that helps users scan content and find what they need quickly. For property websites, this structure might look like:
+Headings create a logical structure that helps users scan content and find what they need quickly. For websites, this structure might look like:
 
 - **H1**: Main page title (only one per page)
 - **H2**: Major sections (Featured Properties, About Us, Contact)
@@ -147,14 +147,14 @@ Lists are perfect for presenting property features, amenities, and specification
 
 ### Links: Connecting Property Information
 
-Links connect related information and enable user navigation. For property websites, consider these link types:
+Links connect related information and enable user navigation. For websites, consider these link types:
 
 **Navigation links**: Connect to main site sections
 **Property detail links**: Lead to full property information
 **External links**: Connect to maps, schools, or local amenities
 **Contact links**: Enable phone calls or email communication
 
-**Best practices for property website links:**
+**Best practices for website links:**
 - Use descriptive text that explains the destination
 - Indicate when links open in new windows
 - Ensure links work on touch devices
@@ -164,7 +164,7 @@ Links connect related information and enable user navigation. For property websi
 
 ### Image Integration Best Practices
 
-Property websites are inherently visual, making proper image implementation crucial:
+Websites are inherently visual, making proper image implementation crucial:
 
 **Essential image considerations:**
 - **Alt text**: Describes images for screen readers and when images fail to load
@@ -186,11 +186,11 @@ Property images need to look good on everything from mobile phones to large desk
 - Consistent aspect ratios for gallery layouts
 - Fallback options when images don't load
 
-## Section 4: Forms for Property Websites
+## Section 4: Forms for Websites
 
 ### Understanding Form Purpose
 
-Forms enable user interaction and are essential for property websites:
+Forms enable user interaction and are essential for websites:
 - **Search forms**: Help users find properties matching their criteria
 - **Contact forms**: Enable inquiries about specific properties
 - **Application forms**: Collect information from potential tenants
@@ -237,11 +237,11 @@ Accessible forms work for all users and improve overall usability:
 - Sufficient colour contrast for visibility
 - Clear indication of required fields
 
-## Section 5: Accessibility in Property Websites
+## Section 5: Accessibility in Websites
 
 ### Why Accessibility Matters
 
-Accessible websites serve all users, including those with disabilities. For property websites, accessibility is particularly important because:
+Accessible websites serve all users, including those with disabilities. For websites, accessibility is particularly important because:
 - Housing is a fundamental need for everyone
 - Legal requirements in many jurisdictions
 - Larger potential customer base
@@ -259,7 +259,7 @@ Accessible websites serve all users, including those with disabilities. For prop
 
 ### Testing Accessibility
 
-Regular testing ensures your property website remains accessible:
+Regular testing ensures your website remains accessible:
 
 **Testing approaches:**
 - Navigate using only the keyboard
@@ -268,11 +268,11 @@ Regular testing ensures your property website remains accessible:
 - Validate HTML for proper structure
 - Test with automated accessibility tools
 
-## Section 6: SEO Foundations for Property Websites
+## Section 6: SEO Foundations for Websites
 
 ### HTML's Role in Search Engine Optimisation
 
-Proper HTML structure significantly impacts how search engines understand and rank your property website:
+Proper HTML structure significantly impacts how search engines understand and rank your website:
 
 **Title elements**: Appear in search results and browser tabs
 **Meta descriptions**: Influence click-through rates from search results
@@ -281,7 +281,7 @@ Proper HTML structure significantly impacts how search engines understand and ra
 
 ### Property-Specific SEO Considerations
 
-Property websites have unique SEO opportunities:
+Websites have unique SEO opportunities:
 
 **Location-based content**: Include suburb, city, and region information
 **Property details**: Specific features that people search for
@@ -313,7 +313,7 @@ Develop a complete property detail page:
 
 ## Summary
 
-This module established the foundation for creating well-structured, accessible HTML for property websites. You now understand:
+This module established the foundation for creating well-structured, accessible HTML for websites. You now understand:
 
 - **HTML structure and syntax** for building proper document foundations
 - **Semantic HTML elements** that provide meaning and improve accessibility
@@ -322,7 +322,7 @@ This module established the foundation for creating well-structured, accessible 
 - **Accessibility principles** that make websites usable for everyone
 - **SEO fundamentals** that help property content rank in search results
 
-These HTML skills provide the essential foundation for building professional property websites that work well for all users and perform effectively in search engines.
+These HTML skills provide the essential foundation for building professional websites that work well for all users and perform effectively in search engines.
 
 ## Navigation
 - [← Previous: Module 0.1 - Development Environment Setup](./Module-0.1-Development-Environment-Setup.md)

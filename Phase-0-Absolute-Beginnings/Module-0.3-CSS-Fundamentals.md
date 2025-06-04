@@ -15,11 +15,11 @@ By the end of this module, you will be able to:
 
 ## Introduction
 
-CSS (Cascading Style Sheets) transforms your structured HTML content into visually appealing, professionally designed websites. If HTML is the skeleton of your property website, CSS is the paint, furniture, and interior design that makes it attractive and usable.
+CSS (Cascading Style Sheets) transforms your structured HTML content into visually appealing, professionally designed websites. If HTML is the skeleton of your website, CSS is the paint, furniture, and interior design that makes it attractive and usable.
 
-For property websites, CSS becomes particularly crucial because visual presentation directly impacts user engagement and trust. Property seekers make quick judgements based on visual appeal, and professional styling can significantly influence their perception of both the website and the properties being marketed.
+For websites, CSS becomes particularly crucial because visual presentation directly impacts user engagement and trust. Property seekers make quick judgements based on visual appeal, and professional styling can significantly influence their perception of both the website and the properties being marketed.
 
-This module focuses on practical CSS skills specifically relevant to property websites: creating attractive property cards, responsive layouts that work on all devices, and interactive elements that enhance user experience.
+This module focuses on practical CSS skills specifically relevant to websites: creating attractive property cards, responsive layouts that work on all devices, and interactive elements that enhance user experience.
 
 ## Section 1: CSS Fundamentals and Syntax
 
@@ -35,7 +35,7 @@ selector {
 }
 ```
 
-**Why this matters for property websites:**
+**Why this matters for websites:**
 - Consistent styling across all property listings
 - Easy maintenance when design needs change
 - Professional appearance that builds trust
@@ -66,13 +66,13 @@ The "Cascading" in CSS refers to how multiple style rules combine and override e
 3. Classes and attributes (primary styling method)
 4. Elements (base styling)
 
-**Best practices for property websites:**
+**Best practices for websites:**
 - Use classes for most styling
 - Keep specificity low for easier maintenance
 - Organise CSS logically by component
 - Use consistent naming conventions
 
-## Section 2: Visual Design Principles for Property Websites
+## Section 2: Visual Design Principles for Websites
 
 ### Typography and Readability
 
@@ -92,7 +92,7 @@ Typography significantly impacts how users perceive and interact with property i
 
 ### Colour Psychology in Property Marketing
 
-Colour choices influence user emotions and behaviour, particularly important for property websites:
+Colour choices influence user emotions and behaviour, particularly important for websites:
 
 **Colour strategy considerations:**
 - **Trust and professionalism**: Blues and greys convey reliability
@@ -117,7 +117,7 @@ Visual hierarchy guides users through your content in order of importance:
 - **Position**: Top and left areas receive more attention
 - **White space**: Spacing around elements increases their prominence
 
-## Section 3: Layout Techniques for Property Websites
+## Section 3: Layout Techniques for Websites
 
 ### Box Model Understanding
 
@@ -133,7 +133,7 @@ Understanding the box model is crucial for creating precise layouts and avoiding
 
 Flexbox excels at arranging elements within containers, perfect for property card layouts:
 
-**Flexbox benefits for property websites:**
+**Flexbox benefits for websites:**
 - Easy alignment of property information
 - Flexible spacing that adapts to content
 - Simple creation of equal-height property cards
@@ -149,7 +149,7 @@ Flexbox excels at arranging elements within containers, perfect for property car
 
 CSS Grid provides powerful two-dimensional layout capabilities, ideal for property website page structures:
 
-**Grid advantages for property websites:**
+**Grid advantages for websites:**
 - Complex layouts without complicated positioning
 - Responsive design that automatically adapts
 - Clean separation of content areas
@@ -161,7 +161,7 @@ CSS Grid provides powerful two-dimensional layout capabilities, ideal for proper
 - Dashboard layouts with multiple information panels
 - Contact page layouts with forms and maps
 
-## Section 4: Responsive Design for Property Websites
+## Section 4: Responsive Design for Websites
 
 ### Mobile-First Design Philosophy
 
@@ -196,7 +196,7 @@ Media queries enable different styling for different screen sizes:
 
 ### Responsive Images and Media
 
-Property websites are image-heavy, requiring careful responsive media strategies:
+Websites are image-heavy, requiring careful responsive media strategies:
 
 **Responsive image techniques:**
 - Flexible sizing that maintains aspect ratios
@@ -208,7 +208,7 @@ Property websites are image-heavy, requiring careful responsive media strategies
 
 ### Property Card Design
 
-Property cards are central components of property websites, requiring careful design attention:
+Property cards are central components of websites, requiring careful design attention:
 
 **Essential property card elements:**
 - Property image with consistent aspect ratio
@@ -261,7 +261,7 @@ Navigation design significantly impacts user experience:
 
 ### CSS Architecture for Maintainability
 
-Well-organised CSS becomes increasingly important as property websites grow:
+Well-organised CSS becomes increasingly important as websites grow:
 
 **Organisation strategies:**
 - Component-based CSS that matches HTML structure
@@ -314,16 +314,16 @@ Develop a full property website layout:
 
 ## Summary
 
-This module established comprehensive CSS skills for creating professional property websites. You now understand:
+This module established comprehensive CSS skills for creating professional websites. You now understand:
 
 - **CSS fundamentals** including selectors, specificity, and the cascade
 - **Visual design principles** for creating trustworthy, attractive property presentations
-- **Layout techniques** using flexbox and CSS Grid for complex property website structures
+- **Layout techniques** using flexbox and CSS Grid for complex website structures
 - **Responsive design** ensuring excellent user experience across all devices
 - **Component styling** for property cards, forms, and interactive elements
-- **CSS organisation** for maintainable, scalable property website development
+- **CSS organisation** for maintainable, scalable website development
 
-These CSS skills enable you to transform basic HTML structure into professional, engaging property websites that work effectively across all devices and provide excellent user experiences.
+These CSS skills enable you to transform basic HTML structure into professional, engaging websites that work effectively across all devices and provide excellent user experiences.
 
 ## Navigation
 - [← Previous: Module 0.2 - HTML Fundamentals](./Module-0.2-HTML-Fundamentals.md)

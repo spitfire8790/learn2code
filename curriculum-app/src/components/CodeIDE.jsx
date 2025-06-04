@@ -205,29 +205,51 @@ const CodeIDE = () => {
         // Clear previous console content
         document.getElementById('console').innerHTML = '';
         
-        // Override console.log to display in our custom console
-        if (!window.customConsoleSetup) {
-            window.customConsoleSetup = true;
-            window.customConsoleElement = document.getElementById('console');
-            window.originalLog = console.log;
-            console.log = function(...args) {
-                window.customConsoleElement.innerHTML += args.join(' ') + '<br>';
-                window.originalLog.apply(console, args);
-            };
+        // Always override console.log to display in our custom console
+        // (Reset each time since the iframe document gets rewritten)
+        window.customConsoleElement = document.getElementById('console');
+        window.originalLog = console.log;
+        console.log = function(...args) {
+            const output = args.map(arg => {
+                if (typeof arg === 'object') {
+                    try {
+                        return JSON.stringify(arg, null, 2);
+                    } catch (e) {
+                        return String(arg);
+                    }
+                }
+                return String(arg);
+            }).join(' ');
+            window.customConsoleElement.innerHTML += output + '<br>';
+            window.originalLog.apply(console, args);
+        };
+        
+        // Also override console.error for better debugging
+        window.originalError = console.error;
+        console.error = function(...args) {
+            const output = args.map(arg => String(arg)).join(' ');
+            window.customConsoleElement.innerHTML += '<span style="color: #ff6b6b;">[Error] ' + output + '</span><br>';
+            window.originalError.apply(console, args);
+        };
+        
+        // Wrap code execution in a try-catch for better error handling
+        try {
+            // Example code - edit this!
+            function greetUser(name) {
+                return \`Hello, \${name}! Welcome to JavaScript.\`;
+            }
+            
+            console.log(greetUser("Developer"));
+            
+            const numbers = [1, 2, 3, 4, 5];
+            const doubled = numbers.map(n => n * 2);
+            console.log("Doubled numbers:", doubled);
+            
+            // Try adding your own code here:
+            
+        } catch (error) {
+            console.error("JavaScript Error:", error.message);
         }
-        
-        // Example code - edit this!
-        function greetUser(name) {
-            return \`Hello, \${name}! Welcome to JavaScript.\`;
-        }
-        
-        console.log(greetUser("Developer"));
-        
-        const numbers = [1, 2, 3, 4, 5];
-        const doubled = numbers.map(n => n * 2);
-        console.log("Doubled numbers:", doubled);
-        
-        // Try adding your own code here:
         
     </script>
 </body>
@@ -322,15 +344,29 @@ const CodeIDE = () => {
     if (previewRef.current) {
       try {
         const iframe = previewRef.current;
-        const doc = iframe.contentDocument || iframe.contentWindow.document;
-        doc.open();
-        doc.write(code);
-        doc.close();
+        
+        // For JavaScript mode, we need to handle variable scope issues
+        if (language === 'javascript') {
+          // Reload the iframe to clear previous state
+          iframe.src = 'about:blank';
+          setTimeout(() => {
+            const doc = iframe.contentDocument || iframe.contentWindow.document;
+            doc.open();
+            doc.write(code);
+            doc.close();
+          }, 10);
+        } else {
+          // For HTML and CSS modes, direct write is fine
+          const doc = iframe.contentDocument || iframe.contentWindow.document;
+          doc.open();
+          doc.write(code);
+          doc.close();
+        }
       } catch (error) {
         console.error('Error updating preview:', error);
       }
     }
-  }, [code]);
+  }, [code, language]);
 
   // Debounced update function
   const debouncedUpdate = useCallback(() => {
@@ -401,8 +437,8 @@ const CodeIDE = () => {
   };
 
   return (
-    <div className={`min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 ${isFullscreen ? 'fixed inset-0 z-50' : ''}`}>
-      <div className={`${isFullscreen ? 'h-screen p-0' : 'max-w-7xl mx-auto p-4'}`}>
+    <div className={`min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 ${isFullscreen ? 'fixed inset-0 z-50 overflow-auto' : ''}`}>
+      <div className={`${isFullscreen ? 'h-full p-0 overflow-auto' : 'max-w-7xl mx-auto p-4'}`}>
         {/* Header */}
         <div className="bg-white dark:bg-gray-800 rounded-t-xl shadow-lg border border-gray-200 dark:border-gray-700 p-4">
           <div className="flex items-center justify-between">
@@ -464,8 +500,8 @@ const CodeIDE = () => {
         </div>
 
         {/* Split View: Code Editor + Live Preview */}
-        <div className="bg-white dark:bg-gray-800 shadow-lg border-x border-gray-200 dark:border-gray-700 overflow-hidden">
-          <div className={`grid grid-cols-1 lg:grid-cols-2 ${isFullscreen ? 'h-[calc(100vh-120px)]' : 'h-[600px]'}`}>
+        <div className="bg-white dark:bg-gray-800 shadow-lg border-x border-gray-200 dark:border-gray-700">
+          <div className={`grid grid-cols-1 lg:grid-cols-2 ${isFullscreen ? 'h-[calc(100vh-120px)]' : 'min-h-[600px]'}`}>
             
             {/* Code Editor */}
             <div className="flex flex-col border-r border-gray-200 dark:border-gray-700 relative z-10">
@@ -489,13 +525,13 @@ const CodeIDE = () => {
                   </button>
                 </div>
               </div>
-              <div className="flex-1 overflow-hidden relative z-10" style={{ position: 'relative' }}>
+              <div className="flex-1 overflow-auto relative z-10" style={{ position: 'relative' }}>
                 <CodeMirror
                   value={code}
                   onChange={handleCodeChange}
                   extensions={getLanguageExtension()}
                   theme={oneDark}
-                  height="100%"
+                  height={isFullscreen ? "calc(100vh - 200px)" : "500px"}
                   style={{
                     fontSize: `${fontSize}px`,
                     position: 'relative',
@@ -513,6 +549,7 @@ const CodeIDE = () => {
                     dropCursor: false,
                     allowMultipleSelections: false,
                     searchKeymap: true,
+                    lineWrapping: true,
                   }}
                   placeholder="Start coding here..."
                 />
@@ -526,13 +563,17 @@ const CodeIDE = () => {
                   Live Preview - Auto-updates as you type
                 </span>
               </div>
-              <div className="flex-1 overflow-hidden relative z-0">
+              <div className="flex-1 overflow-auto relative z-0">
                 <iframe
                   ref={previewRef}
-                  className="w-full h-full border-none bg-white"
+                  className="w-full border-none bg-white"
+                  style={{ 
+                    position: 'relative', 
+                    zIndex: 0,
+                    height: isFullscreen ? "calc(100vh - 200px)" : "500px"
+                  }}
                   title="Live Preview"
                   sandbox="allow-scripts allow-same-origin"
-                  style={{ position: 'relative', zIndex: 0 }}
                 />
               </div>
             </div>

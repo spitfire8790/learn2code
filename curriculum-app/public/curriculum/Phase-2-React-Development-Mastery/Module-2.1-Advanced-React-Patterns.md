@@ -26,8 +26,8 @@ The property analysis platform employs advanced React patterns such as compound 
 **What makes these patterns "advanced"?**
 
 - **Scalability**: Handle thousands of properties and complex data relationships
-- **Maintainability**: Organize code that remains manageable as features grow
-- **Performance**: Optimize rendering and state updates for smooth user experience
+- **Maintainability**: Organise code that remains manageable as features grow
+- **Performance**: Optimise rendering and state updates for smooth user experience
 - **Reusability**: Create components that work across different parts of the application
 - **Developer Experience**: Write code that's easier to understand, test, and debug
 
@@ -58,245 +58,165 @@ import React, {
   useCallback,
   useEffect,
 } from "react";
-// Assuming these type definitions exist in your project
-// import { Property, PropertyFilters, PropertySortOptions } from "@/types/property";
-// For clarity in this example, let's define simplified versions or assume they exist:
-type Property = { id: string; address: string; price: number; [key: string]: any };
-type PropertyFilters = { priceMin?: number; priceMax?: number; type?: string };
-type PropertySortOptions = { field: string; direction: "asc" | "desc" };
+import {
+  Property,
+  PropertyFilters,
+  PropertySortOptions,
+} from "@/types/property";
+import { PropertyService } from "@/services/propertyService";
 
-// Assuming a PropertyService exists for API calls
-// import { PropertyService } from "@/services/propertyService";
-// Mock PropertyService for this example
-const PropertyService = {
-  getProperties: async (filters: any, sortOptions: any, page: number, limit: number) => ({ success: true, data: { data: [], total: 0, hasNext: false, hasPrev: false }, message: "" }),
-  createProperty: async (property: any) => ({ success: true, data: { ...property, id: Math.random().toString(36).substr(2,9) }, message: "" }),
-  updateProperty: async (id: string, updates: any) => ({ success: true, data: { id, ...updates }, message: "" }),
-  deleteProperty: async (id: string) => ({ success: true, data: { id }, message: "" }),
-};
-
-// --- Part 1: Defining the State Structure and Actions --- //
-
-// PropertyState: Defines the shape of our context's state.
-// It holds all data related to properties that components might need.
 interface PropertyState {
-  properties: Property[];           // Array of all loaded property objects
-  selectedProperties: string[];   // Array of IDs of properties currently selected by the user
-  filters: PropertyFilters;         // Object containing current filter criteria (e.g., price range, type)
-  sortOptions: PropertySortOptions | null; // Object for sorting (field and direction), or null if no sort
-  loading: boolean;                 // True if data is currently being fetched/updated
-  error: string | null;             // Error message string if an operation failed, otherwise null
-  pagination: {                   // Object to manage pagination for large datasets
-    page: number;                 // Current page number
-    limit: number;                // Number of items per page
-    total: number;                // Total number of properties matching current filters
-    hasNext: boolean;             // True if there is a next page
-    hasPrev: boolean;             // True if there is a previous page
+  properties: Property[];
+  selectedProperties: string[];
+  filters: PropertyFilters;
+  sortOptions: PropertySortOptions | null;
+  loading: boolean;
+  error: string | null;
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    hasNext: boolean;
+    hasPrev: boolean;
   };
 }
 
-// PropertyAction: Defines all possible actions that can be dispatched to update the state.
-// This is a TypeScript union type, meaning an action can be one of these defined shapes.
-// Each action has a 'type' (a string literal identifying the action) and an optional 'payload' (data for the action).	ype PropertyAction =
-  | { type: "SET_LOADING"; payload: boolean }                          // Sets the loading state
-  | { type: "SET_ERROR"; payload: string | null }                    // Sets an error message
-  | { type: "SET_PROPERTIES"; payload: Property[] }                   // Replaces the list of properties
-  | { type: "ADD_PROPERTY"; payload: Property }                       // Adds a new property to the list
-  | { type: "UPDATE_PROPERTY"; payload: { id: string; updates: Partial<Property> } } // Updates an existing property
-  | { type: "DELETE_PROPERTY"; payload: string }                     // Deletes a property by its ID
-  | { type: "SET_FILTERS"; payload: PropertyFilters }                // Sets new filter criteria
-  | { type: "SET_SORT"; payload: PropertySortOptions | null }        // Sets new sort options
-  | { type: "SELECT_PROPERTY"; payload: string }                   // Adds a property ID to the selection
-  | { type: "DESELECT_PROPERTY"; payload: string }                 // Removes a property ID from the selection
-  | { type: "CLEAR_SELECTION" }                                   // Clears all selected properties
-  | { type: "SET_PAGINATION"; payload: Partial<PropertyState["pagination"]> }; // Updates parts of the pagination state
+type PropertyAction =
+  | { type: "SET_LOADING"; payload: boolean }
+  | { type: "SET_ERROR"; payload: string | null }
+  | { type: "SET_PROPERTIES"; payload: Property[] }
+  | { type: "ADD_PROPERTY"; payload: Property }
+  | {
+      type: "UPDATE_PROPERTY";
+      payload: { id: string; updates: Partial<Property> };
+    }
+  | { type: "DELETE_PROPERTY"; payload: string }
+  | { type: "SET_FILTERS"; payload: PropertyFilters }
+  | { type: "SET_SORT"; payload: PropertySortOptions | null }
+  | { type: "SELECT_PROPERTY"; payload: string }
+  | { type: "DESELECT_PROPERTY"; payload: string }
+  | { type: "CLEAR_SELECTION" }
+  | { type: "SET_PAGINATION"; payload: Partial<PropertyState["pagination"]> };
 
-// initialState: The default state of our property context when the application loads.
 const initialState: PropertyState = {
   properties: [],
   selectedProperties: [],
-  filters: { type: "any" }, // Example initial filter
+  filters: {},
   sortOptions: null,
   loading: false,
   error: null,
   pagination: {
     page: 1,
-    limit: 20,       // Default to 20 properties per page
+    limit: 20,
     total: 0,
     hasNext: false,
     hasPrev: false,
   },
 };
 
-// --- Part 2: The Reducer Function --- //
-// The reducer is a pure function responsible for all state transitions.
-// - It takes the current state (`state`) and an action (`action`) as arguments.
-// - It returns a *new* state object based on the action type.
-// - It must NOT mutate the original state; always return a new object (e.g., using spread syntax `...state`).
 function propertyReducer(
-  state: PropertyState,      // The current state of the context
-  action: PropertyAction     // The action dispatched to trigger a state change
-): PropertyState {           // The new state after the action is applied
-  console.log("Reducer action:", action.type, "Payload:", (action as any).payload);
-
+  state: PropertyState,
+  action: PropertyAction
+): PropertyState {
   switch (action.type) {
-    // Action: SET_LOADING
-    // Purpose: Updates the loading indicator (e.g., when starting an API call).
     case "SET_LOADING":
-      return {
-        ...state, // Copy all existing state properties
-        loading: action.payload // Update only the loading property
-      };
+      return { ...state, loading: action.payload };
 
-    // Action: SET_ERROR
-    // Purpose: Sets an error message and typically stops loading.
     case "SET_ERROR":
-      return {
-        ...state,
-        error: action.payload, // Set the error message (or null to clear)
-        loading: false         // Usually, an error means loading has finished (unsuccessfully)
-      };
+      return { ...state, error: action.payload, loading: false };
 
-    // Action: SET_PROPERTIES
-    // Purpose: Replaces the current list of properties with a new list (e.g., after fetching from API).
     case "SET_PROPERTIES":
       return {
         ...state,
-        properties: action.payload, // Replace the properties array with the new one from the payload
-        loading: false,             // Data has been loaded
-        error: null                 // Clear any previous errors
+        properties: action.payload,
+        loading: false,
+        error: null,
       };
 
-    // Action: ADD_PROPERTY
-    // Purpose: Adds a new property to the beginning of the properties list and updates total count.
     case "ADD_PROPERTY":
       return {
         ...state,
-        // Create a new array with the new property at the start, followed by existing properties
         properties: [action.payload, ...state.properties],
-        // Update pagination: increment total count
         pagination: { ...state.pagination, total: state.pagination.total + 1 },
       };
 
-    // Action: UPDATE_PROPERTY
-    // Purpose: Updates an existing property in the list.
     case "UPDATE_PROPERTY":
       return {
         ...state,
-        // Create a new properties array by mapping over the old one:
         properties: state.properties.map((property) =>
-          property.id === action.payload.id // If this is the property to update...
-            ? { ...property, ...action.payload.updates } // ...create a new object spreading existing property and new updates
-            : property // ...otherwise, return the property unchanged
+          property.id === action.payload.id
+            ? { ...property, ...action.payload.updates }
+            : property
         ),
       };
 
-    // Action: DELETE_PROPERTY
-    // Purpose: Removes a property from the list and selection, and updates total count.
     case "DELETE_PROPERTY":
       return {
         ...state,
-        // Create a new properties array excluding the deleted property
         properties: state.properties.filter(
-          (property) => property.id !== action.payload // payload is the ID of property to delete
+          (property) => property.id !== action.payload
         ),
-        // Also remove from selected properties if it was selected
         selectedProperties: state.selectedProperties.filter(
           (id) => id !== action.payload
         ),
-        // Update pagination: decrement total count
         pagination: { ...state.pagination, total: state.pagination.total - 1 },
       };
 
-    // Action: SET_FILTERS
-    // Purpose: Updates the current filter criteria.
-    // Note: This action itself doesn't re-fetch properties. An effect usually handles that.
     case "SET_FILTERS":
-      return {
-        ...state,
-        filters: action.payload, // Set the new filters object
-        // It's common to reset to page 1 when filters change, handled in the dispatching function or an effect.
-      };
+      return { ...state, filters: action.payload };
 
-    // Action: SET_SORT
-    // Purpose: Updates the current sort options.
     case "SET_SORT":
       return { ...state, sortOptions: action.payload };
 
-    // Action: SELECT_PROPERTY
-    // Purpose: Adds a property ID to the list of selected properties (if not already selected).
     case "SELECT_PROPERTY":
       return {
         ...state,
         selectedProperties: state.selectedProperties.includes(action.payload)
-          ? state.selectedProperties // If already selected, return current selection array (no change)
-          : [...state.selectedProperties, action.payload], // Else, create new array with the added ID
+          ? state.selectedProperties
+          : [...state.selectedProperties, action.payload],
       };
 
-    // Action: DESELECT_PROPERTY
-    // Purpose: Removes a property ID from the list of selected properties.
     case "DESELECT_PROPERTY":
       return {
         ...state,
         selectedProperties: state.selectedProperties.filter(
-          (id) => id !== action.payload // Create new array excluding the deselected ID
+          (id) => id !== action.payload
         ),
       };
 
-    // Action: CLEAR_SELECTION
-    // Purpose: Clears all currently selected properties.
     case "CLEAR_SELECTION":
-      return { ...state, selectedProperties: [] }; // Set to an empty array
+      return { ...state, selectedProperties: [] };
 
-    // Action: SET_PAGINATION
-    // Purpose: Updates parts of the pagination state (e.g., current page, total items).
     case "SET_PAGINATION":
       return {
         ...state,
-        // Merge new pagination data from payload with existing pagination state
         pagination: { ...state.pagination, ...action.payload },
       };
 
-    // Default case: If an unknown action type is received, return the current state unchanged.
     default:
-      // This is a good place to handle actions that might not be explicitly typed yet
-      // or to throw an error for unhandled actions in development.
-      // const _exhaustiveCheck: never = action; // For exhaustive type checking (optional)
       return state;
   }
 }
 
-// --- Part 3: Context Value Interface and Context Creation --- //
-
-// PropertyContextValue: Defines the complete shape of the value that our context will provide to consumers.
-// It includes all the state properties from `PropertyState` (by extending it)
-// AND all the action dispatcher functions that components can call.
-interface PropertyContextValue extends PropertyState { // Inherits all fields from PropertyState
-  // Action dispatching functions (wrapped in useCallback for performance later in the Provider)
-  fetchProperties: () => Promise<void>;                             // Fetches/re-fetches the list of properties
-  createProperty: (property: Omit<Property, "id" | "metadata">) => Promise<void>; // Creates a new property
-  updateProperty: (id: string, updates: Partial<Property>) => Promise<void>; // Updates an existing property
-  deleteProperty: (id: string) => Promise<void>;                      // Deletes a property
-  setFilters: (filters: PropertyFilters) => void;                   // Sets new filter criteria
-  setSortOptions: (sort: PropertySortOptions | null) => void;       // Sets new sort options
-  selectProperty: (id: string) => void;                             // Selects a property
-  deselectProperty: (id: string) => void;                           // Deselects a property
-  clearSelection: () => void;                                       // Clears the current selection
-  goToPage: (page: number) => void;                                 // Navigates to a specific page of properties
+interface PropertyContextValue extends PropertyState {
+  fetchProperties: () => Promise<void>;
+  createProperty: (
+    property: Omit<Property, "id" | "metadata">
+  ) => Promise<void>;
+  updateProperty: (id: string, updates: Partial<Property>) => Promise<void>;
+  deleteProperty: (id: string) => Promise<void>;
+  setFilters: (filters: PropertyFilters) => void;
+  setSortOptions: (sort: PropertySortOptions | null) => void;
+  selectProperty: (id: string) => void;
+  deselectProperty: (id: string) => void;
+  clearSelection: () => void;
+  goToPage: (page: number) => void;
 }
 
-// PropertyContext: Creates the actual React Context object.
-// - `createContext` is a React function that returns a context object { Provider, Consumer }.
-// - We type the context value with `PropertyContextValue | undefined`.
-//   It's `undefined` initially because the context will only have a meaningful value
-//   once it's wrapped by its `PropertyProvider` component.
-// - Consumers will need to check for `undefined` to ensure the context is available (usually handled by a custom hook).
 const PropertyContext = createContext<PropertyContextValue | undefined>(
-  undefined // Default value before Provider is used
+  undefined
 );
 
-// --- Part 4: The PropertyProvider Component --- //
-// (Will be explained in subsequent sections)
 interface PropertyProviderProps {
   children: React.ReactNode;
   propertyService: PropertyService;

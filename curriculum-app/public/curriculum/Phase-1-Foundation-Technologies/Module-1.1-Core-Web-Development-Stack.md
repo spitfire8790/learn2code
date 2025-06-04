@@ -25,96 +25,60 @@ Arrow functions are one of the most important features introduced in ES6. They p
 
 Let's see how they work in practice:
 
-````javascript
-// Traditional function syntax
-function calculateTraditional(price, sqm) {
+```javascript
+// Traditional function
+function calculatePropertyValue(price, sqm) {
   return price * sqm;
 }
-console.log("Traditional function result:", calculateTraditional(1000, 100)); // Output: 100000
 
-// Arrow function (concise syntax for single expressions)
-// If the function body is a single expression, curly braces {} and the 'return' keyword are optional.
-// The expression's result is implicitly returned.
-const calculateArrowConcise = (price, sqm) => price * sqm;
-console.log("Concise arrow function result:", calculateArrowConcise(1000, 100)); // Output: 100000
+// Arrow function (concise)
+const calculatePropertyValue = (price, sqm) => price * sqm;
 
-// Arrow function with multiple statements (block body)
-// If you have multiple statements, you MUST use curly braces {} and an explicit 'return' statement.
+// Arrow function with multiple statements
 const analyseProperty = (property) => {
-  // Calculate price per square meter
   const pricePerSqm = property.price / property.area;
-  // Assume a market adjustment (e.g., 10% above calculated price/sqm for market value)
-  const marketValue = pricePerSqm * 1.1;
-
-  // Return an object with the analysis results
+  const marketValue = pricePerSqm * 1.1; // 10% above market
   return {
-    pricePerSqm: pricePerSqm,
-    marketValue: marketValue,
-    isAboveMarket: marketValue > property.price, // Check if the estimated market value is above the listed price
+    pricePerSqm,
+    marketValue,
+    isAboveMarket: marketValue > property.price,
   };
 };
 
-const exampleProperty = { id: 1, price: 800000, area: 120, suburb: "Bondi" };
-console.log("Property analysis:", analyseProperty(exampleProperty));
-// Output: { pricePerSqm: 6666.66..., marketValue: 7333.33..., isAboveMarket: false }
-
-// The following examples demonstrate arrow functions with array methods.
-// This is a very common and powerful pattern in modern JavaScript, especially in React.
+// Arrow functions in array methods (very common in React)
 const properties = [
   { id: 1, price: 800000, area: 120, suburb: "Bondi" },
   { id: 2, price: 1200000, area: 180, suburb: "Surry Hills" },
   { id: 3, price: 950000, area: 140, suburb: "Newtown" },
-  { id: 4, price: 1500000, area: 200, suburb: "Bondi" },
 ];
 
-// Example 1: .filter() with an arrow function
-// Purpose: Creates a new array containing only elements that pass a certain test (return true for the callback).
-// Here, the arrow function `(property) => property.price < 1000000` is the test.
-// It checks if a property's price is less than $1,000,000.
+// Filter properties under $1M
 const affordableProperties = properties.filter(
   (property) => property.price < 1000000
 );
-console.log("Affordable Properties (filter):", affordableProperties);
-// Output: [{ id: 1, ... }, { id: 3, ... }]
 
-// Example 2: .map() with an arrow function
-// Purpose: Creates a new array by applying a function to each element of the original array.
-// Here, the arrow function `(property) => ({ ... })` transforms each property object.
-// It adds a new key `pricePerSqm` to each property object.
-// The spread syntax `...property` copies all existing key-value pairs from the original property object.
+// Calculate price per square metre for each property
 const propertiesWithPricePerSqm = properties.map((property) => ({
-  ...property, // Keep all original property details
-  pricePerSqm: Math.round(property.price / property.area), // Add new calculated detail
+  ...property,
+  pricePerSqm: Math.round(property.price / property.area),
 }));
-console.log("Properties with price/sqm (map):", propertiesWithPricePerSqm);
-// Output: Each property object will now have a pricePerSqm field.
 
-// Example 3: .reduce() with an arrow function
-// Purpose: Reduces an array to a single value by executing a reducer function on each element.
-// The arrow function `(max, property) => property.price > max.price ? property : max` is the reducer.
-// - `max`: This is the accumulator. It holds the result of the previous iteration (or the initial value).
-// - `property`: This is the current element being processed in the array.
-// The initial value for `max` is `properties[0]` (the first property in the array),
-// as .reduce() without an initial value uses the first element as the initial accumulator and starts from the second element.
-// This reducer compares the current property's price with the `max.price` found so far and returns the property with the higher price.
-const mostExpensive = properties.reduce((max, currentProperty) =>
-  currentProperty.price > max.price ? currentProperty : max
+// Find most expensive property
+const mostExpensive = properties.reduce((max, property) =>
+  property.price > max.price ? property : max
 );
-// A more robust way if the array could be empty, or to start with a specific structure:
-// const mostExpensive = properties.reduce((max, property) => {
-//   return property.price > (max.price || 0) ? property : max;
-// }, {}); // Start with an empty object as initial value for max
 
-console.log("Most expensive (reduce):", mostExpensive);
-// Output: { id: 4, price: 1500000, ... }
+console.log("Affordable Properties:", affordableProperties);
+console.log("Properties with price/sqm:", propertiesWithPricePerSqm);
+console.log("Most expensive:", mostExpensive);
+```
 
 **What's happening in this code:**
 
-1. **Traditional function**: `calculateTraditional` shows how traditional functions work
-2. **Concise arrow function**: `calculateArrowConcise` demonstrates concise arrow functions
-3. **Multi-line arrow function**: `analyseProperty` shows how to use arrow functions with multiple statements - you need curly braces and explicit return
-4. **Array methods with arrows**: The most powerful feature - `.filter()`, `.map()`, and `.reduce()` become incredibly readable with arrow functions
-5. **Real-world application**: This pattern of filtering, transforming, and analyzing data is fundamental to React development
+1. **Basic arrow function**: `calculatePropertyValue` shows how arrow functions can be more concise than traditional functions
+2. **Multi-line arrow function**: `analyseProperty` demonstrates how to use arrow functions with multiple statements - you need curly braces and explicit return
+3. **Array methods with arrows**: The most powerful feature - `.filter()`, `.map()`, and `.reduce()` become incredibly readable with arrow functions
+4. **Real-world application**: This pattern of filtering, transforming, and analyzing data is fundamental to React development
 
 **Key takeaway**: Arrow functions aren't just about shorter syntax - they make data processing chains much more readable and are essential for functional programming patterns you'll use constantly in React.
 
@@ -132,9 +96,7 @@ Destructuring is one of the most practical ES6 features for working with objects
 Destructuring makes extracting data from objects and arrays much cleaner:
 
 ```javascript
-// --- Object Destructuring --- //
-
-// Sample property object for destructuring examples
+// Object destructuring - perfect for property data
 const property = {
   id: 1,
   address: "123 Beach Road, Bondi",
@@ -147,96 +109,53 @@ const property = {
     postcode: 2026,
     state: "NSW",
   },
-  agent: {
-    name: "Jane Doe",
-    phone: "0400123456"
-  }
 };
 
-// Example 1: Basic Object Destructuring
-// Purpose: To extract specific top-level properties from an object into variables.
-// The variable names must match the property keys in the object.
+// Extract specific properties
 const { price, bedrooms, bathrooms } = property;
+console.log(`$${price.toLocaleString()} | ${bedrooms}BR ${bathrooms}BA`);
 
-// Now you can use these variables directly:
-console.log(`Price: $${price.toLocaleString()}`); // Output: Price: $1,200,000
-console.log(`Details: ${bedrooms} BR, ${bathrooms} BA`); // Output: Details: 3 BR, 2 BA
-
-// Example 2: Nested Object Destructuring
-// Purpose: To extract properties from nested objects directly.
-// Here, we want 'suburb' and 'postcode' from the 'location' object within 'property'.
+// Nested destructuring
 const {
-  location: { suburb, postcode }, // First, destructure 'location', then from 'location' destructure 'suburb' and 'postcode'
-  agent: { name: agentName }      // You can also rename variables during destructuring using 'key: newName'
+  location: { suburb, postcode },
 } = property;
+console.log(`${suburb} ${postcode}`);
 
-console.log(`Location: ${suburb}, ${postcode}`); // Output: Location: Bondi, 2026
-console.log(`Agent: ${agentName}`); // Output: Agent: Jane Doe
+// Destructuring with default values
+const { carSpaces = 0, pool = false } = property;
 
-// The following examples will cover default values, function parameters, and array destructuring.
-
-// Example 3: Destructuring with Default Values
-// Purpose: To provide fallback values for properties that might not exist on an object.
-// If 'carSpaces' is not found on 'property', it will default to 0.
-// If 'pool' is not found, it will default to false.
-const { carSpaces = 0, pool = false, price } = property; // price is extracted as usual
-
-console.log(`Car Spaces: ${carSpaces}`); // Output: Car Spaces: 0 (used default)
-console.log(`Pool: ${pool}`); // Output: Pool: false (used default)
-console.log(`Price: $${price.toLocaleString()}`); // Output: Price: $1,200,000 (property had this key)
-
-// Example 4: Destructuring Function Parameters (Very common in React components)
-// Purpose: To directly extract properties from an object passed as a function argument.
-// This makes the function body cleaner as you don't need to do property.price, property.address, etc.
-const PropertyCard = ({ propAddress, propPrice, propBedrooms = "N/A", propBathrooms = "N/A" }) => {
-  // Inside the function, propAddress, propPrice, propBedrooms, propBathrooms are available as variables.
-  // Default values can also be used for destructured parameters.
+// Destructuring function parameters (very common in React)
+const PropertyCard = ({ price, address, bedrooms, bathrooms }) => {
   return `
         <div class="property-card">
-            <h3>${propAddress}</h3>
-            <p>$${propPrice ? propPrice.toLocaleString() : 'Price on application'}</p>
-            <p>${propBedrooms} BR | ${propBathrooms} BA</p>
+            <h3>${address}</h3>
+            <p>$${price.toLocaleString()}</p>
+            <p>${bedrooms}BR ${bathrooms}BA</p>
         </div>
     `;
 };
 
-// How you might call this function with an object:
-const propertyForCard = {
-  propAddress: "456 Ocean View, Coogee",
-  propPrice: 1500000,
-  propBedrooms: 4,
-  // propBathrooms is missing, so its default "N/A" will be used.
-};
-const cardHTML = PropertyCard(propertyForCard);
-console.log("Property Card HTML:", cardHTML);
-/* Output:
-Property Card HTML:
-        <div class="property-card">
-            <h3>456 Ocean View, Coogee</h3>
-            <p>$1,500,000</p>
-            <p>4 BR | N/A BA</p>
-        </div>
-*/
+// Array destructuring
+const [firstProperty, secondProperty, ...otherProperties] = properties;
+console.log("First property:", firstProperty);
+console.log("Remaining properties:", otherProperties);
 
-// Another call, price is missing (or null/undefined)
-const propertyForCardNoPrice = {
-  propAddress: "789 Mountain Rd, Katoomba",
-  propBedrooms: 2,
-  propBathrooms: 1
-};
-const cardHTMLNoPrice = PropertyCard(propertyForCardNoPrice);
-console.log("Property Card HTML (No Price):", cardHTMLNoPrice);
-/* Output:
-Property Card HTML (No Price):
-        <div class="property-card">
-            <h3>789 Mountain Rd, Katoomba</h3>
-            <p>Price on application</p>
-            <p>2 BR | 1 BA</p>
-        </div>
-*/
-
-// Next, we'll look at Array destructuring.
+// Destructuring in array methods
+properties.forEach(({ id, price, suburb }) => {
+  console.log(`Property ${id} in ${suburb}: $${price.toLocaleString()}`);
+});
 ```
+
+**Understanding the patterns:**
+
+1. **Object destructuring**: Extract specific properties into variables with the same names
+2. **Nested destructuring**: Access deeply nested properties like `location.suburb` directly
+3. **Default values**: Provide fallbacks when properties might not exist
+4. **Function parameters**: Destructure React props directly in function signatures
+5. **Array destructuring**: Extract array elements by position
+6. **Real-world usage**: The `forEach` example shows how destructuring makes loops cleaner
+
+**Common React pattern**: You'll see `const { name, email, age } = user` everywhere in React components - it's the standard way to work with props and state objects.
 
 #### Template Literals
 
@@ -262,7 +181,7 @@ const buildPropertyDescription = (property) => {
         🛏️  ${bedrooms} bedrooms | 🚿 ${bathrooms} bathrooms
         📐 ${area}m² (${Math.round(price / area)}/m²)
         ✨ Features: ${features.join(", ")}
-
+        
         ${price > 1000000 ? "🔥 Premium Property" : "💰 Great Value"}
     `;
 };
@@ -270,7 +189,7 @@ const buildPropertyDescription = (property) => {
 // Multi-line HTML templates (useful before learning React)
 const createPropertyHTML = (property) => `
     <article class="property-listing">
-        <img src="images/property-${property.id}.jpg"
+        <img src="images/property-${property.id}.jpg" 
              alt="Property at ${property.address}" />
         <div class="property-content">
             <h2>${property.address}</h2>
@@ -346,10 +265,10 @@ import PropertyUtils from '../utils/propertyCalculations.js';
 class PropertyAnalyzer {
     constructor(property) {
         this.property = property;
-        this.analysis = this.analyze();
-    }
+          this.analysis = this.analyse();
+}
 
-    analyze() {
+analyse() {
         const { price, area } = this.property;
 
         return {
@@ -1580,5 +1499,3 @@ You're ready for Module 1.2 where you'll learn modern styling with Tailwind CSS 
 - [← Previous: Phase 0 - Absolute Beginnings](../../Phase-0-Absolute-Beginnings/README.md)
 - [Next: Module 1.2 - Styling and UI Framework →](Module-1.2-Styling-and-UI-Framework.md)
 - [↑ Back to Phase 1 Overview](README.md)
-```
-````

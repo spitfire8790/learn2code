@@ -73,6 +73,11 @@ const MarkdownViewer = ({ phaseId, moduleId, title }) => {
       // First two parts are the module number (e.g., "0", "1")
       const moduleNumber = `${parts[0]}.${parts[1]}`;
       
+      // Handle special case for three-js-fundamentals
+      if (withoutPrefix === '4-1-three-js-fundamentals') {
+        return 'Module-4.1-Three.js-Fundamentals.md';
+      }
+      
       // Remaining parts are the title, capitalize each word with special handling
       const titleParts = parts.slice(2).map(part => {
         // Special cases for proper nouns/abbreviations
@@ -88,6 +93,9 @@ const MarkdownViewer = ({ phaseId, moduleId, title }) => {
         if (part.toLowerCase() === 'devops') return 'DevOps';
         if (part.toLowerCase() === 'nodejs') return 'NodeJS';
         if (part.toLowerCase() === 'npm') return 'NPM';
+        if (part.toLowerCase() === 'supabase') return 'Supabase';
+        if (part.toLowerCase() === 'postgresql') return 'PostgreSQL';
+        if (part.toLowerCase() === 'and') return 'and';
         
         // Default capitalization
         return part.charAt(0).toUpperCase() + part.slice(1);

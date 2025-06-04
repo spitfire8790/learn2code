@@ -1,7 +1,9 @@
 # Module 1.2: Styling and UI Framework
 
 ## Learning Objectives
+
 By the end of this module, you will be able to:
+
 - Understand modern styling approaches for property applications
 - Implement utility-first CSS methodologies effectively
 - Build consistent, professional user interfaces using component libraries
@@ -9,6 +11,7 @@ By the end of this module, you will be able to:
 - Apply accessibility principles in modern UI development
 
 ## Prerequisites
+
 - Completion of Module 1.1: Core Web Development Stack
 - Strong foundation in CSS fundamentals from Phase 0
 - Understanding of React component architecture
@@ -32,7 +35,7 @@ Traditional CSS development involves writing custom styles for each component, o
 
 **Consistency**: When all developers use the same utility classes, designs naturally become more consistent across the application.
 
-**Speed**: No need to write custom CSS for common patterns like centering content, adding margins, or creating responsive layouts.
+**Speed**: No need to write custom CSS for common patterns like centring content, adding margins, or creating responsive layouts.
 
 **Maintainability**: Changes to design systems can be made globally by updating utility definitions rather than hunting through custom CSS files.
 
@@ -289,21 +292,27 @@ Property applications evolve continuously, and design systems must evolve with t
 ## Practical Exercises
 
 ### Exercise 1: Property Card Component System
+
 Design and implement a flexible property card system:
+
 1. Analyse different property card requirements across the application
 2. Design a component API that handles various property types
 3. Implement responsive behaviour for different screen sizes
 4. Add accessibility features and loading states
 
 ### Exercise 2: Property Search Form
+
 Build a comprehensive property search interface:
+
 1. Design the information architecture for search criteria
 2. Implement progressive disclosure for advanced options
 3. Add responsive behaviour for mobile and desktop
 4. Include proper validation and error handling
 
 ### Exercise 3: Dashboard Layout System
+
 Create a responsive dashboard layout:
+
 1. Design grid systems that work across screen sizes
 2. Implement consistent spacing and typography
 3. Add interactive elements with proper hover and focus states
@@ -323,6 +332,7 @@ This module established modern styling approaches essential for professional pro
 These styling skills enable you to build property applications that feel professional, work efficiently across devices, and maintain consistency as they grow in complexity and team size.
 
 ## Navigation
+
 - [← Previous: Module 1.1 - Core Web Development Stack](./Module-1.1-Core-Web-Development-Stack.md)
 - [Next: Module 1.3 - TypeScript Integration →](./Module-1.3-TypeScript-Integration.md)
 - [↑ Back to Phase 1 Overview](./README.md)
