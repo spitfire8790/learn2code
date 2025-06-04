@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import rehypeHighlight from 'rehype-highlight';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark, oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { 
   FileText, 
   ExternalLink,
@@ -14,6 +17,25 @@ const MarkdownViewer = ({ phaseId, moduleId, title }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isExpanded, setIsExpanded] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Check for dark mode
+  useEffect(() => {
+    const checkDarkMode = () => {
+      setIsDarkMode(document.documentElement.classList.contains('dark'));
+    };
+    
+    checkDarkMode();
+    
+    // Watch for dark mode changes
+    const observer = new MutationObserver(checkDarkMode);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+    
+    return () => observer.disconnect();
+  }, []);
 
   // Map phase IDs to directory names
   const getPhaseDirectory = (phaseId) => {
@@ -33,6 +55,11 @@ const MarkdownViewer = ({ phaseId, moduleId, title }) => {
 
   // Convert module ID back to filename
   const getModuleFileName = (moduleId) => {
+    // Handle special case for Core Syntax Overview
+    if (moduleId === 'core-syntax-overview') {
+      return 'Core-Syntax-Overview.md';
+    }
+    
     // moduleId format: "module-0-1-development-environment-setup"
     // filename format: "Module-0.1-Development-Environment-Setup.md"
     
@@ -46,10 +73,25 @@ const MarkdownViewer = ({ phaseId, moduleId, title }) => {
       // First two parts are the module number (e.g., "0", "1")
       const moduleNumber = `${parts[0]}.${parts[1]}`;
       
-      // Remaining parts are the title, capitalize each word
-      const titleParts = parts.slice(2).map(part => 
-        part.charAt(0).toUpperCase() + part.slice(1)
-      );
+      // Remaining parts are the title, capitalize each word with special handling
+      const titleParts = parts.slice(2).map(part => {
+        // Special cases for proper nouns/abbreviations
+        if (part.toLowerCase() === 'typescript') return 'TypeScript';
+        if (part.toLowerCase() === 'javascript') return 'JavaScript';
+        if (part.toLowerCase() === 'html') return 'HTML';
+        if (part.toLowerCase() === 'css') return 'CSS';
+        if (part.toLowerCase() === 'api') return 'API';
+        if (part.toLowerCase() === 'ui') return 'UI';
+        if (part.toLowerCase() === 'gis') return 'GIS';
+        if (part.toLowerCase() === 'ci') return 'CI';
+        if (part.toLowerCase() === 'cd') return 'CD';
+        if (part.toLowerCase() === 'devops') return 'DevOps';
+        if (part.toLowerCase() === 'nodejs') return 'NodeJS';
+        if (part.toLowerCase() === 'npm') return 'NPM';
+        
+        // Default capitalization
+        return part.charAt(0).toUpperCase() + part.slice(1);
+      });
       
       return `Module-${moduleNumber}-${titleParts.join('-')}.md`;
     }
@@ -152,8 +194,11 @@ const MarkdownViewer = ({ phaseId, moduleId, title }) => {
         {children}
       </li>
     ),
-    // Code blocks with better styling
+    // Code blocks with syntax highlighting
     code: ({ inline, className, children, ...props }) => {
+      const match = /language-(\w+)/.exec(className || '');
+      const language = match ? match[1] : '';
+      
       if (inline) {
         return (
           <code className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 px-2 py-1 rounded text-sm font-mono font-semibold" {...props}>
@@ -161,17 +206,32 @@ const MarkdownViewer = ({ phaseId, moduleId, title }) => {
           </code>
         );
       }
+      
       return (
-        <pre className="bg-gray-900 dark:bg-gray-800 text-gray-100 dark:text-gray-100 p-4 rounded-lg overflow-x-auto font-mono text-sm mb-4 border border-gray-300 dark:border-gray-600">
-          <code {...props}>{children}</code>
-        </pre>
+        <div className="mb-4 rounded-lg overflow-hidden border border-gray-300 dark:border-gray-600">
+          {language && (
+            <div className="bg-gray-100 dark:bg-gray-800 px-4 py-2 text-xs font-mono text-gray-600 dark:text-gray-400 border-b border-gray-300 dark:border-gray-600">
+              {language.toUpperCase()}
+            </div>
+          )}
+          <SyntaxHighlighter
+            language={language || 'text'}
+            style={isDarkMode ? oneDark : oneLight}
+            customStyle={{
+              margin: 0,
+              borderRadius: 0,
+              fontSize: '14px',
+              lineHeight: '1.5'
+            }}
+            showLineNumbers={true}
+            wrapLines={true}
+            {...props}
+          >
+            {String(children).replace(/\n$/, '')}
+          </SyntaxHighlighter>
+        </div>
       );
     },
-    pre: ({ children }) => (
-      <pre className="bg-gray-900 dark:bg-gray-800 text-gray-100 dark:text-gray-100 p-4 rounded-lg overflow-x-auto font-mono text-sm mb-4 border border-gray-300 dark:border-gray-600">
-        {children}
-      </pre>
-    ),
     // Blockquotes
     blockquote: ({ children }) => (
       <blockquote className="border-l-4 border-primary-500 dark:border-primary-400 pl-4 italic text-gray-600 dark:text-gray-300 mb-4 bg-gray-50 dark:bg-gray-800 p-3 rounded-r-lg">

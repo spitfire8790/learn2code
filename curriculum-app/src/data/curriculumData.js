@@ -1,5 +1,5 @@
 // Auto-generated curriculum data from markdown files
-// Generated on 2025-06-03T23:07:17.725Z
+// Generated on 2025-06-04T03:30:14.127Z
 
 export const curriculumData = {
   "title": "Comprehensive Coding Curriculum - Property Analysis Platform",
@@ -11,6 +11,26 @@ export const curriculumData = {
       "description": "This phase covers the essential foundations needed to start your journey into property analysis web development. You'll set up your development environment, learn HTML and CSS fundamentals, and master version control with Git and GitHub. By the end of this phase, you'll have built and deployed your first property website.",
       "color": "from-green-400 to-green-600",
       "modules": [
+        {
+          "id": "core-syntax-overview",
+          "title": "Core Syntax Overview",
+          "description": "A quick-reference guide to the most important syntax and operators in the beginner web stack: JavaScript, CSS, and Git/bash. Use this to look up what a symbol means, see an example, and understand when to use it. For deeper learning, see the main modules (links at the end of each section).",
+          "learningObjectives": [],
+          "prerequisites": [],
+          "sections": [
+            "JavaScript: Core Syntax & Operators",
+            "CSS: Selectors, Combinators & Units",
+            "Git/Bash: Operators & Syntax",
+            "Other Syntax",
+            "Cross-References"
+          ],
+          "topics": [
+            "async",
+            "await"
+          ],
+          "projects": [],
+          "difficulty": "Beginner"
+        },
         {
           "id": "module-0-1-development-environment-setup",
           "title": "Module 0.1: Development Environment Setup",
@@ -98,7 +118,6 @@ export const curriculumData = {
             "- **Backup strategy**: Separate projects reduce risk of data loss",
             "for scalable application development"
           ],
-          "duration": "15-16 hours",
           "difficulty": "Beginner"
         },
         {
@@ -162,10 +181,7 @@ export const curriculumData = {
             "Checkboxes",
             "Radio buttons"
           ],
-          "projects": [
-            "Complete hands-on exercises for Module 0.2: HTML Fundamentals"
-          ],
-          "duration": "14-15 hours",
+          "projects": [],
           "difficulty": "Beginner"
         },
         {
@@ -225,7 +241,6 @@ export const curriculumData = {
           "projects": [
             "- Consistent naming conventions across the project"
           ],
-          "duration": "14-15 hours",
           "difficulty": "Beginner"
         },
         {
@@ -283,7 +298,6 @@ export const curriculumData = {
             "- **Version control concepts** and their importance for managing property development projects",
             "- **Basic Git workflow** for tracking changes and managing project history"
           ],
-          "duration": "17-18 hours",
           "difficulty": "Beginner"
         }
       ]
@@ -310,18 +324,22 @@ export const curriculumData = {
             "Additional Resources"
           ],
           "topics": [
-            "Overview",
-            "JavaScript/ES6+ Fundamentals",
-            "React.js Ecosystem",
-            "Modern JavaScript Tooling",
-            "Practice Exercise: Build Property Analysis Dashboard",
-            "Summary",
-            "Additional Resources"
+            "Shorter syntax",
+            "Lexical `this` binding",
+            "Implicit returns",
+            "Perfect for array methods",
+            "Cleaner code",
+            "Better performance",
+            "Essential for React",
+            "API integration",
+            "String interpolation",
+            "Multi-line strings",
+            "HTML templating",
+            "Tagged templates"
           ],
           "projects": [
             "- ✅ **Development Tooling**: Node.js, NPM, Vite, and project organisation"
           ],
-          "duration": "32-33 hours",
           "difficulty": "Beginner"
         },
         {
@@ -365,10 +383,7 @@ export const curriculumData = {
             "Summary",
             "Navigation"
           ],
-          "projects": [
-            "Complete hands-on exercises for Module 1.2: Styling and UI Framework"
-          ],
-          "duration": "17-18 hours",
+          "projects": [],
           "difficulty": "Beginner"
         },
         {
@@ -407,10 +422,7 @@ export const curriculumData = {
             "Complex workflows",
             "Team collaboration"
           ],
-          "projects": [
-            "Complete hands-on exercises for Module 1.3: TypeScript Integration"
-          ],
-          "duration": "15-16 hours",
+          "projects": [],
           "difficulty": "Beginner"
         }
       ]
@@ -448,16 +460,26 @@ export const curriculumData = {
             "Navigation"
           ],
           "topics": [
+            "Scalability",
+            "Maintainability",
+            "Performance",
+            "Reusability",
+            "Developer Experience",
+            "Global state",
+            "Avoid prop drilling",
+            "Consistent updates",
+            "Performance",
+            "Complex state transitions",
+            "Predictable updates",
+            "Easier testing",
+            "Better debugging",
             "Context API",
             "Compound Components",
             "Advanced Forms",
             "Performance Patterns",
             "Error Boundaries"
           ],
-          "projects": [
-            "Complete hands-on exercises for Module 2.1: Advanced React Patterns"
-          ],
-          "duration": "38-39 hours",
+          "projects": [],
           "difficulty": "Intermediate"
         },
         {
@@ -493,10 +515,7 @@ export const curriculumData = {
             "Performance Optimisation",
             "Error Resilience"
           ],
-          "projects": [
-            "Complete hands-on exercises for Module 2.2: Data Management and APIs"
-          ],
-          "duration": "35-36 hours",
+          "projects": [],
           "difficulty": "Intermediate"
         },
         {
@@ -542,10 +561,7 @@ export const curriculumData = {
             "Performance Optimisation",
             "Meaningful Animation"
           ],
-          "projects": [
-            "Complete hands-on exercises for Module 2.3: Advanced UI Patterns"
-          ],
-          "duration": "15-16 hours",
+          "projects": [],
           "difficulty": "Intermediate"
         },
         {
@@ -594,10 +610,7 @@ export const curriculumData = {
             "Quality Assurance",
             "Complex Scenarios"
           ],
-          "projects": [
-            "Complete hands-on exercises for Module 2.4: Testing and Quality Assurance"
-          ],
-          "duration": "18-19 hours",
+          "projects": [],
           "difficulty": "Intermediate"
         }
       ]
@@ -654,7 +667,6 @@ export const curriculumData = {
             "Mathematical transformations that convert spherical Earth coordinates to flat map representations with known distortion characteristics.",
             "- **Coordinate systems and projections** for accurate spatial data representation and transformation"
           ],
-          "duration": "18-19 hours",
           "difficulty": "Intermediate"
         },
         {
@@ -698,10 +710,7 @@ export const curriculumData = {
             "Summary",
             "Navigation"
           ],
-          "projects": [
-            "Complete hands-on exercises for Module 3.2: Spatial Data Processing"
-          ],
-          "duration": "17-18 hours",
+          "projects": [],
           "difficulty": "Intermediate"
         },
         {
@@ -745,10 +754,7 @@ export const curriculumData = {
             "Summary",
             "Navigation"
           ],
-          "projects": [
-            "Complete hands-on exercises for Module 3.3: Web Mapping Services (WMS/WFS)"
-          ],
-          "duration": "18-19 hours",
+          "projects": [],
           "difficulty": "Intermediate"
         },
         {
@@ -792,10 +798,7 @@ export const curriculumData = {
             "Summary",
             "Navigation"
           ],
-          "projects": [
-            "Complete hands-on exercises for Module 3.4: Advanced GIS Features"
-          ],
-          "duration": "18-19 hours",
+          "projects": [],
           "difficulty": "Intermediate"
         }
       ]
@@ -847,10 +850,7 @@ export const curriculumData = {
             "Summary",
             "Navigation"
           ],
-          "projects": [
-            "Complete hands-on exercises for Module 4.1: Three.js Fundamentals"
-          ],
-          "duration": "21-22 hours",
+          "projects": [],
           "difficulty": "Intermediate"
         },
         {
@@ -894,10 +894,7 @@ export const curriculumData = {
             "Summary",
             "Navigation"
           ],
-          "projects": [
-            "Complete hands-on exercises for Module 4.2: React Three Fiber"
-          ],
-          "duration": "20-21 hours",
+          "projects": [],
           "difficulty": "Intermediate"
         },
         {
@@ -944,7 +941,6 @@ export const curriculumData = {
           "projects": [
             "Managing different map projections and coordinate systems used by various environmental data sources."
           ],
-          "duration": "20-21 hours",
           "difficulty": "Intermediate"
         },
         {
@@ -992,7 +988,6 @@ export const curriculumData = {
             "- Implement coordinate transformation and projection systems for accurate 3D positioning",
             "Working with projected coordinates that may be more appropriate for local property analysis while ensuring accurate 3D representation."
           ],
-          "duration": "20-21 hours",
           "difficulty": "Intermediate"
         }
       ]
@@ -1047,7 +1042,6 @@ export const curriculumData = {
           "projects": [
             "- Project and property tracking"
           ],
-          "duration": "15-16 hours",
           "difficulty": "Intermediate"
         },
         {
@@ -1092,10 +1086,7 @@ export const curriculumData = {
             "Error Handling",
             "Performance"
           ],
-          "projects": [
-            "Complete hands-on exercises for Module 5.2: API Development"
-          ],
-          "duration": "18-19 hours",
+          "projects": [],
           "difficulty": "Intermediate"
         },
         {
@@ -1139,10 +1130,7 @@ export const curriculumData = {
             "Data Integrity",
             "Performance"
           ],
-          "projects": [
-            "Complete hands-on exercises for Module 5.3: Data Migration and Management"
-          ],
-          "duration": "27-28 hours",
+          "projects": [],
           "difficulty": "Intermediate"
         },
         {
@@ -1186,10 +1174,7 @@ export const curriculumData = {
             "Performance Monitoring",
             "Resource Management"
           ],
-          "projects": [
-            "Complete hands-on exercises for Module 5.4: Caching and Performance"
-          ],
-          "duration": "29-30 hours",
+          "projects": [],
           "difficulty": "Intermediate"
         }
       ]
@@ -1241,10 +1226,7 @@ export const curriculumData = {
             "Development Workflow",
             "Performance"
           ],
-          "projects": [
-            "Complete hands-on exercises for Module 6.1: Modern Build Tools"
-          ],
-          "duration": "24-25 hours",
+          "projects": [],
           "difficulty": "Advanced"
         },
         {
@@ -1288,10 +1270,7 @@ export const curriculumData = {
             "Visual Testing",
             "Performance Testing"
           ],
-          "projects": [
-            "Complete hands-on exercises for Module 6.2: Testing Infrastructure"
-          ],
-          "duration": "30-31 hours",
+          "projects": [],
           "difficulty": "Advanced"
         },
         {
@@ -1393,7 +1372,6 @@ export const curriculumData = {
             "- Infrastructure projects impact",
             "- Reduce projection period"
           ],
-          "duration": "47-48 hours",
           "difficulty": "Advanced"
         }
       ]
@@ -1444,10 +1422,7 @@ export const curriculumData = {
             "Multi-Environment Strategy",
             "Performance Optimization"
           ],
-          "projects": [
-            "Complete hands-on exercises for Module 7.1: Cloud Platforms"
-          ],
-          "duration": "30-31 hours",
+          "projects": [],
           "difficulty": "Advanced"
         },
         {
@@ -1490,10 +1465,7 @@ export const curriculumData = {
             "Performance Dashboards",
             "Alerting Systems"
           ],
-          "projects": [
-            "Complete hands-on exercises for Module 7.2: Performance and Monitoring"
-          ],
-          "duration": "41-42 hours",
+          "projects": [],
           "difficulty": "Advanced"
         },
         {
@@ -1536,10 +1508,7 @@ export const curriculumData = {
             "Monitoring and Alerting",
             "Quality Assurance"
           ],
-          "projects": [
-            "Complete hands-on exercises for Module 7.3: CI/CD and Automation"
-          ],
-          "duration": "38-39 hours",
+          "projects": [],
           "difficulty": "Advanced"
         }
       ]
@@ -1590,10 +1559,7 @@ export const curriculumData = {
             "Risk Assessment",
             "Performance and Reliability"
           ],
-          "projects": [
-            "Complete hands-on exercises for Module 8.1: Government API Integration"
-          ],
-          "duration": "39-40 hours",
+          "projects": [],
           "difficulty": "Advanced"
         }
       ]

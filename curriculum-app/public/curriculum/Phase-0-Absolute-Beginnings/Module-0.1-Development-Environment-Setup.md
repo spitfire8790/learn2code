@@ -1,13 +1,16 @@
 # Module 0.1: Development Environment Setup
 
 ## Learning Objectives
+
 By the end of this module, you will be able to:
+
 - Set up a professional Windows development environment
 - Configure essential development tools for web development
 - Understand the role of each tool in the development workflow
 - Create and organise your first development project
 
 ## Prerequisites
+
 - Windows computer with administrator access
 - Basic computer literacy and file management skills
 - Chrome browser installed
@@ -17,8 +20,9 @@ By the end of this module, you will be able to:
 Setting up your development environment is like preparing a professional kitchen before cooking. Just as a chef needs sharp knives, proper cutting boards, and organised ingredients, a web developer needs the right tools configured correctly to build efficient, high-quality applications.
 
 Your development environment consists of several key components that work together:
+
 - **Code Editor**: Where you write and edit your code
-- **Browser**: Where you test and debug your applications  
+- **Browser**: Where you test and debug your applications
 - **Version Control**: How you track changes and collaborate
 - **Terminal**: Command-line interface for running tools and scripts
 
@@ -31,18 +35,21 @@ Think of this setup as an investment in your productivity. Spending time now to 
 Before diving into installation, it's important to understand why we choose these particular tools for property development applications:
 
 **Visual Studio Code** is the most widely adopted code editor in the web development community. It strikes the perfect balance between simplicity and power:
+
 - **Beginner-friendly**: Clean interface that doesn't overwhelm newcomers
 - **Extensible**: Thousands of extensions for any development need
 - **Industry standard**: What most professionals use, so learning resources are abundant
 - **Free and reliable**: Backed by Microsoft with regular updates
 
 **Chrome DevTools** provide the most comprehensive debugging experience:
+
 - **Real-time editing**: See changes instantly without refreshing
 - **Performance monitoring**: Essential for property applications with large datasets
 - **Mobile simulation**: Test responsive designs without multiple devices
 - **Network analysis**: Debug API calls and loading performance
 
 **Git and GitHub** form the backbone of modern development workflow:
+
 - **Version control**: Track every change to your code
 - **Collaboration**: Work with teams and contribute to open source
 - **Backup**: Your code is safely stored in the cloud
@@ -70,12 +77,14 @@ Understanding how these tools work together helps you appreciate why each is imp
 **Why the specific installation options matter:**
 
 When installing VS Code, the context menu options we select serve specific purposes:
+
 - **"Open with Code" in file menu**: Right-click any file to edit it instantly
 - **"Open with Code" in folder menu**: Right-click any folder to open it as a project
 - **Register as default editor**: Makes VS Code the default for code files
 - **Add to PATH**: Allows opening VS Code from the command line
 
 **Installation Steps:**
+
 1. Download from [https://code.visualstudio.com/](https://code.visualstudio.com/)
 2. Run installer with administrator privileges
 3. Select all context menu and PATH options
@@ -86,16 +95,19 @@ When installing VS Code, the context menu options we select serve specific purpo
 Extensions transform VS Code from a basic text editor into a powerful development environment. Here's why each recommended extension matters:
 
 **Live Server**:
+
 - **Purpose**: Creates a local web server for your HTML files
 - **Why essential**: See changes instantly in the browser without manual refreshing
 - **Property development use**: Test responsive layouts and interactive features
 
 **Prettier**:
+
 - **Purpose**: Automatically formats your code consistently
 - **Why essential**: Maintains readable, professional code formatting
 - **Property development use**: Keeps complex property data structures organised
 
 **Auto Rename Tag**:
+
 - **Purpose**: When you rename an opening HTML tag, it automatically renames the closing tag
 - **Why essential**: Prevents mismatched tags that break layouts
 - **Property development use**: Maintain clean HTML structure in property listing templates
@@ -121,6 +133,7 @@ PropertyDevelopment/
 ```
 
 **Benefits of this organisation:**
+
 - **Logical grouping**: Related files stay together
 - **Easy navigation**: Find specific components quickly
 - **Version control**: Each project can have its own Git repository
@@ -144,22 +157,26 @@ While users may prefer different browsers, developers typically standardise on C
 
 Chrome DevTools consist of several panels, each serving specific development needs:
 
-**Elements Panel**: 
+**Elements Panel**:
+
 - Inspect and modify HTML structure
 - Edit CSS styles in real-time
 - Debug layout issues in property card components
 
 **Console Panel**:
+
 - View JavaScript errors and warnings
 - Test code snippets interactively
 - Debug property calculation functions
 
 **Network Panel**:
+
 - Monitor API requests to property databases
 - Analyse loading performance
 - Debug failed requests
 
 **Performance Panel**:
+
 - Identify slow operations in property search functionality
 - Optimise rendering of large property lists
 - Monitor memory usage during complex operations
@@ -181,6 +198,7 @@ Learning these shortcuts significantly improves development efficiency:
 Version control is like having unlimited "undo" for your entire project, plus the ability to work on multiple features simultaneously without breaking anything.
 
 **Why Git matters for property development:**
+
 - **Backup**: Never lose work again
 - **Experimentation**: Try new features safely
 - **Collaboration**: Work with other developers
@@ -197,12 +215,14 @@ Think of Git as a sophisticated filing system, and GitHub as a shared online sto
 ### Installation and Configuration
 
 **Git Installation:**
+
 1. Download from [https://git-scm.com/download/win](https://git-scm.com/download/win)
 2. Use recommended installation settings
 3. Choose "Git from the command line and also from 3rd-party software"
 4. Select "Checkout Windows-style, commit Unix-style line endings"
 
 **GitHub Account Setup:**
+
 1. Create account at [https://github.com](https://github.com)
 2. Choose a professional username (this becomes part of your developer identity)
 3. Enable two-factor authentication for security
@@ -219,13 +239,44 @@ Working Directory → Staging Area → Local Repository → Remote Repository
 ```
 
 **Practical example with property project:**
-1. Create new folder: `my-property-app`
-2. Initialise Git: `git init`
-3. Create initial files: `index.html`, `style.css`
-4. Stage files: `git add .`
-5. Commit: `git commit -m "Initial property app structure"`
-6. Connect to GitHub: `git remote add origin [repository-url]`
-7. Push: `git push -u origin main`
+
+1.  **Create new folder:** `my-property-app`
+
+    - First, create a folder on your computer for your new project. You can do this through your file explorer or using the `mkdir my-property-app` command in your terminal.
+    - Then, navigate into this folder in your terminal: `cd my-property-app`
+
+2.  **Initialise Git:** `git init`
+
+    - This command turns the current folder (`my-property-app`) into a Git repository.
+    - It creates a hidden `.git` subfolder where Git stores all its tracking information.
+    - You only need to run this once per project.
+
+3.  **Create initial files:** `index.html`, `style.css`
+
+    - Using VS Code or any text editor, create some basic files for your project, like an HTML file for structure and a CSS file for styling.
+
+4.  **Stage files:** `git add .`
+
+    - This command adds all new or modified files in the current directory (and subdirectories) to the "staging area."
+    - The staging area is like a waiting room for changes you want to include in your next commit (snapshot).
+    - You can also add specific files: `git add index.html style.css`.
+
+5.  **Commit:** `git commit -m "Initial property app structure"`
+
+    - This command takes everything from the staging area and saves a snapshot of it to your local repository.
+    - The `-m` flag allows you to include a commit message directly. Good commit messages are crucial – they describe what changes were made in this snapshot (e.g., "Add homepage layout", "Fix login bug").
+
+6.  **Connect to GitHub (or other remote):** `git remote add origin [repository-url]`
+
+    - First, go to GitHub.com and create a new, empty repository. GitHub will provide you with a URL (e.g., `https://github.com/your-username/my-property-app.git`).
+    - This command links your local Git repository to a remote repository (usually on GitHub).
+    - `origin` is a conventional shorthand name for your main remote repository.
+    - Replace `[repository-url]` with the actual URL from GitHub.
+
+7.  **Push:** `git push -u origin main`
+    - This command uploads your committed changes from your local `main` branch to the `main` branch on the remote repository (`origin`).
+    - The `-u` flag (short for `--set-upstream`) sets up a tracking relationship between your local `main` branch and the remote `main` branch. This means in the future, you can just type `git push` from the `main` branch.
+    - `main` is the default name for the primary branch in Git, though older projects might use `master`.
 
 ## Section 5: Project Organisation and Best Practices
 
@@ -259,14 +310,17 @@ property-analysis-app/
 Consistent naming prevents confusion and errors:
 
 **Files and folders**: Use lowercase with hyphens
+
 - ✅ `property-search.js`
 - ❌ `PropertySearch.js` or `property_search.js`
 
 **CSS classes**: Use BEM methodology (Block Element Modifier)
+
 - ✅ `.property-card__title--featured`
 - ❌ `.propertyCardTitleFeatured`
 
 **JavaScript functions**: Use camelCase
+
 - ✅ `calculatePropertyYield()`
 - ❌ `calculate_property_yield()`
 
@@ -275,6 +329,7 @@ Consistent naming prevents confusion and errors:
 Good documentation is crucial for property applications due to their complexity:
 
 **README.md structure:**
+
 ```
 # Property Analysis Application
 
@@ -297,6 +352,7 @@ Guidelines for other developers
 ```
 
 **Code comments strategy:**
+
 - Explain **why**, not **what**
 - Document complex business logic
 - Include examples for property calculations
@@ -305,7 +361,9 @@ Guidelines for other developers
 ## Practical Exercises
 
 ### Exercise 1: Environment Verification
+
 Complete this checklist to verify your setup:
+
 - [ ] VS Code opens from right-click context menu
 - [ ] Extensions are installed and active
 - [ ] Live Server extension can serve HTML files
@@ -314,7 +372,9 @@ Complete this checklist to verify your setup:
 - [ ] GitHub repository can be created and cloned
 
 ### Exercise 2: First Project Setup
+
 Create your first property development project:
+
 1. Create new folder structure following best practices
 2. Initialise Git repository
 3. Create basic HTML file with property card mockup
@@ -322,7 +382,9 @@ Create your first property development project:
 5. Open project in VS Code and test Live Server
 
 ### Exercise 3: Workflow Practice
+
 Practice the complete development workflow:
+
 1. Create new feature branch in Git
 2. Add CSS styling to property card
 3. Test changes in Chrome with DevTools
@@ -342,6 +404,7 @@ This module established the foundation for professional web development by setti
 These tools and practices form the foundation for everything you'll learn in subsequent modules. Take time to become comfortable with this environment before moving forward.
 
 ## Navigation
+
 - [Next: Module 0.2 - HTML Fundamentals →](./Module-0.2-HTML-Fundamentals.md)
 - [↑ Back to Phase 0 Overview](./README.md)
 - [↑ Back to Main Curriculum](../coding-curriculum.md)

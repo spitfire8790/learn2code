@@ -1,6 +1,7 @@
 # Module 1.1: Core Web Development Stack
 
 ## Overview
+
 This module introduces you to modern JavaScript and React.js - the foundation technologies for building interactive property analysis applications. You'll learn ES6+ features, React fundamentals, and modern development tooling that powers sophisticated web applications.
 
 ---
@@ -13,131 +14,263 @@ Modern JavaScript (ES6+) provides powerful features that make code more readable
 
 #### Arrow Functions
 
-Arrow functions provide a concise syntax and solve the `this` binding issue:
+Arrow functions are one of the most important features introduced in ES6. They provide a shorter, cleaner syntax for writing functions and automatically bind the `this` context from the surrounding code. This makes them particularly useful in React applications where you frequently pass functions as event handlers or callbacks.
 
-```javascript
-// Traditional function
-function calculatePropertyValue(price, sqm) {
-    return price * sqm;
+**Why arrow functions matter:**
+
+- **Shorter syntax**: Less typing, cleaner code
+- **Lexical `this` binding**: Eliminates common bugs with `this` in event handlers
+- **Implicit returns**: Single expressions don't need explicit return statements
+- **Perfect for array methods**: `.map()`, `.filter()`, `.reduce()` become much more readable
+
+Let's see how they work in practice:
+
+````javascript
+// Traditional function syntax
+function calculateTraditional(price, sqm) {
+  return price * sqm;
 }
+console.log("Traditional function result:", calculateTraditional(1000, 100)); // Output: 100000
 
-// Arrow function (concise)
-const calculatePropertyValue = (price, sqm) => price * sqm;
+// Arrow function (concise syntax for single expressions)
+// If the function body is a single expression, curly braces {} and the 'return' keyword are optional.
+// The expression's result is implicitly returned.
+const calculateArrowConcise = (price, sqm) => price * sqm;
+console.log("Concise arrow function result:", calculateArrowConcise(1000, 100)); // Output: 100000
 
-// Arrow function with multiple statements
+// Arrow function with multiple statements (block body)
+// If you have multiple statements, you MUST use curly braces {} and an explicit 'return' statement.
 const analyseProperty = (property) => {
-    const pricePerSqm = property.price / property.area;
-    const marketValue = pricePerSqm * 1.1; // 10% above market
-    return {
-        pricePerSqm,
-        marketValue,
-        isAboveMarket: marketValue > property.price
-    };
+  // Calculate price per square meter
+  const pricePerSqm = property.price / property.area;
+  // Assume a market adjustment (e.g., 10% above calculated price/sqm for market value)
+  const marketValue = pricePerSqm * 1.1;
+
+  // Return an object with the analysis results
+  return {
+    pricePerSqm: pricePerSqm,
+    marketValue: marketValue,
+    isAboveMarket: marketValue > property.price, // Check if the estimated market value is above the listed price
+  };
 };
 
-// Arrow functions in array methods (very common in React)
+const exampleProperty = { id: 1, price: 800000, area: 120, suburb: "Bondi" };
+console.log("Property analysis:", analyseProperty(exampleProperty));
+// Output: { pricePerSqm: 6666.66..., marketValue: 7333.33..., isAboveMarket: false }
+
+// The following examples demonstrate arrow functions with array methods.
+// This is a very common and powerful pattern in modern JavaScript, especially in React.
 const properties = [
-    { id: 1, price: 800000, area: 120, suburb: 'Bondi' },
-    { id: 2, price: 1200000, area: 180, suburb: 'Surry Hills' },
-    { id: 3, price: 950000, area: 140, suburb: 'Newtown' }
+  { id: 1, price: 800000, area: 120, suburb: "Bondi" },
+  { id: 2, price: 1200000, area: 180, suburb: "Surry Hills" },
+  { id: 3, price: 950000, area: 140, suburb: "Newtown" },
+  { id: 4, price: 1500000, area: 200, suburb: "Bondi" },
 ];
 
-// Filter properties under $1M
-const affordableProperties = properties.filter(property => property.price < 1000000);
-
-// Calculate price per square metre for each property
-const propertiesWithPricePerSqm = properties.map(property => ({
-    ...property,
-    pricePerSqm: Math.round(property.price / property.area)
-}));
-
-// Find most expensive property
-const mostExpensive = properties.reduce((max, property) => 
-    property.price > max.price ? property : max
+// Example 1: .filter() with an arrow function
+// Purpose: Creates a new array containing only elements that pass a certain test (return true for the callback).
+// Here, the arrow function `(property) => property.price < 1000000` is the test.
+// It checks if a property's price is less than $1,000,000.
+const affordableProperties = properties.filter(
+  (property) => property.price < 1000000
 );
+console.log("Affordable Properties (filter):", affordableProperties);
+// Output: [{ id: 1, ... }, { id: 3, ... }]
 
-console.log('Affordable Properties:', affordableProperties);
-console.log('Properties with price/sqm:', propertiesWithPricePerSqm);
-console.log('Most expensive:', mostExpensive);
-```
+// Example 2: .map() with an arrow function
+// Purpose: Creates a new array by applying a function to each element of the original array.
+// Here, the arrow function `(property) => ({ ... })` transforms each property object.
+// It adds a new key `pricePerSqm` to each property object.
+// The spread syntax `...property` copies all existing key-value pairs from the original property object.
+const propertiesWithPricePerSqm = properties.map((property) => ({
+  ...property, // Keep all original property details
+  pricePerSqm: Math.round(property.price / property.area), // Add new calculated detail
+}));
+console.log("Properties with price/sqm (map):", propertiesWithPricePerSqm);
+// Output: Each property object will now have a pricePerSqm field.
+
+// Example 3: .reduce() with an arrow function
+// Purpose: Reduces an array to a single value by executing a reducer function on each element.
+// The arrow function `(max, property) => property.price > max.price ? property : max` is the reducer.
+// - `max`: This is the accumulator. It holds the result of the previous iteration (or the initial value).
+// - `property`: This is the current element being processed in the array.
+// The initial value for `max` is `properties[0]` (the first property in the array),
+// as .reduce() without an initial value uses the first element as the initial accumulator and starts from the second element.
+// This reducer compares the current property's price with the `max.price` found so far and returns the property with the higher price.
+const mostExpensive = properties.reduce((max, currentProperty) =>
+  currentProperty.price > max.price ? currentProperty : max
+);
+// A more robust way if the array could be empty, or to start with a specific structure:
+// const mostExpensive = properties.reduce((max, property) => {
+//   return property.price > (max.price || 0) ? property : max;
+// }, {}); // Start with an empty object as initial value for max
+
+console.log("Most expensive (reduce):", mostExpensive);
+// Output: { id: 4, price: 1500000, ... }
+
+**What's happening in this code:**
+
+1. **Traditional function**: `calculateTraditional` shows how traditional functions work
+2. **Concise arrow function**: `calculateArrowConcise` demonstrates concise arrow functions
+3. **Multi-line arrow function**: `analyseProperty` shows how to use arrow functions with multiple statements - you need curly braces and explicit return
+4. **Array methods with arrows**: The most powerful feature - `.filter()`, `.map()`, and `.reduce()` become incredibly readable with arrow functions
+5. **Real-world application**: This pattern of filtering, transforming, and analyzing data is fundamental to React development
+
+**Key takeaway**: Arrow functions aren't just about shorter syntax - they make data processing chains much more readable and are essential for functional programming patterns you'll use constantly in React.
 
 #### Destructuring Assignment
+
+Destructuring is one of the most practical ES6 features for working with objects and arrays. Instead of accessing properties one by one, you can extract multiple values in a single line. This is especially valuable when working with API responses, React props, and complex data structures.
+
+**Why destructuring matters:**
+
+- **Cleaner code**: Extract exactly what you need from objects/arrays
+- **Better performance**: Avoid repeated property access
+- **Essential for React**: Component props are almost always destructured
+- **API integration**: Makes working with API responses much cleaner
 
 Destructuring makes extracting data from objects and arrays much cleaner:
 
 ```javascript
-// Object destructuring - perfect for property data
+// --- Object Destructuring --- //
+
+// Sample property object for destructuring examples
 const property = {
-    id: 1,
-    address: '123 Beach Road, Bondi',
-    price: 1200000,
-    bedrooms: 3,
-    bathrooms: 2,
-    features: ['pool', 'garage', 'garden'],
-    location: {
-        suburb: 'Bondi',
-        postcode: 2026,
-        state: 'NSW'
-    }
+  id: 1,
+  address: "123 Beach Road, Bondi",
+  price: 1200000,
+  bedrooms: 3,
+  bathrooms: 2,
+  features: ["pool", "garage", "garden"],
+  location: {
+    suburb: "Bondi",
+    postcode: 2026,
+    state: "NSW",
+  },
+  agent: {
+    name: "Jane Doe",
+    phone: "0400123456"
+  }
 };
 
-// Extract specific properties
+// Example 1: Basic Object Destructuring
+// Purpose: To extract specific top-level properties from an object into variables.
+// The variable names must match the property keys in the object.
 const { price, bedrooms, bathrooms } = property;
-console.log(`$${price.toLocaleString()} | ${bedrooms}BR ${bathrooms}BA`);
 
-// Nested destructuring
-const { location: { suburb, postcode } } = property;
-console.log(`${suburb} ${postcode}`);
+// Now you can use these variables directly:
+console.log(`Price: $${price.toLocaleString()}`); // Output: Price: $1,200,000
+console.log(`Details: ${bedrooms} BR, ${bathrooms} BA`); // Output: Details: 3 BR, 2 BA
 
-// Destructuring with default values
-const { carSpaces = 0, pool = false } = property;
+// Example 2: Nested Object Destructuring
+// Purpose: To extract properties from nested objects directly.
+// Here, we want 'suburb' and 'postcode' from the 'location' object within 'property'.
+const {
+  location: { suburb, postcode }, // First, destructure 'location', then from 'location' destructure 'suburb' and 'postcode'
+  agent: { name: agentName }      // You can also rename variables during destructuring using 'key: newName'
+} = property;
 
-// Destructuring function parameters (very common in React)
-const PropertyCard = ({ price, address, bedrooms, bathrooms }) => {
-    return `
+console.log(`Location: ${suburb}, ${postcode}`); // Output: Location: Bondi, 2026
+console.log(`Agent: ${agentName}`); // Output: Agent: Jane Doe
+
+// The following examples will cover default values, function parameters, and array destructuring.
+
+// Example 3: Destructuring with Default Values
+// Purpose: To provide fallback values for properties that might not exist on an object.
+// If 'carSpaces' is not found on 'property', it will default to 0.
+// If 'pool' is not found, it will default to false.
+const { carSpaces = 0, pool = false, price } = property; // price is extracted as usual
+
+console.log(`Car Spaces: ${carSpaces}`); // Output: Car Spaces: 0 (used default)
+console.log(`Pool: ${pool}`); // Output: Pool: false (used default)
+console.log(`Price: $${price.toLocaleString()}`); // Output: Price: $1,200,000 (property had this key)
+
+// Example 4: Destructuring Function Parameters (Very common in React components)
+// Purpose: To directly extract properties from an object passed as a function argument.
+// This makes the function body cleaner as you don't need to do property.price, property.address, etc.
+const PropertyCard = ({ propAddress, propPrice, propBedrooms = "N/A", propBathrooms = "N/A" }) => {
+  // Inside the function, propAddress, propPrice, propBedrooms, propBathrooms are available as variables.
+  // Default values can also be used for destructured parameters.
+  return `
         <div class="property-card">
-            <h3>${address}</h3>
-            <p>$${price.toLocaleString()}</p>
-            <p>${bedrooms}BR ${bathrooms}BA</p>
+            <h3>${propAddress}</h3>
+            <p>$${propPrice ? propPrice.toLocaleString() : 'Price on application'}</p>
+            <p>${propBedrooms} BR | ${propBathrooms} BA</p>
         </div>
     `;
 };
 
-// Array destructuring
-const [firstProperty, secondProperty, ...otherProperties] = properties;
-console.log('First property:', firstProperty);
-console.log('Remaining properties:', otherProperties);
+// How you might call this function with an object:
+const propertyForCard = {
+  propAddress: "456 Ocean View, Coogee",
+  propPrice: 1500000,
+  propBedrooms: 4,
+  // propBathrooms is missing, so its default "N/A" will be used.
+};
+const cardHTML = PropertyCard(propertyForCard);
+console.log("Property Card HTML:", cardHTML);
+/* Output:
+Property Card HTML:
+        <div class="property-card">
+            <h3>456 Ocean View, Coogee</h3>
+            <p>$1,500,000</p>
+            <p>4 BR | N/A BA</p>
+        </div>
+*/
 
-// Destructuring in array methods
-properties.forEach(({ id, price, suburb }) => {
-    console.log(`Property ${id} in ${suburb}: $${price.toLocaleString()}`);
-});
+// Another call, price is missing (or null/undefined)
+const propertyForCardNoPrice = {
+  propAddress: "789 Mountain Rd, Katoomba",
+  propBedrooms: 2,
+  propBathrooms: 1
+};
+const cardHTMLNoPrice = PropertyCard(propertyForCardNoPrice);
+console.log("Property Card HTML (No Price):", cardHTMLNoPrice);
+/* Output:
+Property Card HTML (No Price):
+        <div class="property-card">
+            <h3>789 Mountain Rd, Katoomba</h3>
+            <p>Price on application</p>
+            <p>2 BR | 1 BA</p>
+        </div>
+*/
+
+// Next, we'll look at Array destructuring.
 ```
 
 #### Template Literals
+
+Template literals revolutionize string handling in JavaScript. Instead of concatenating strings with `+`, you can embed expressions directly inside strings using `${}` syntax. This is particularly powerful for creating HTML templates, user messages, and formatted output.
+
+**Key advantages:**
+
+- **String interpolation**: Embed variables and expressions directly
+- **Multi-line strings**: No more concatenating line breaks
+- **HTML templating**: Create complex HTML structures cleanly
+- **Tagged templates**: Advanced processing of template strings
 
 Template literals make string interpolation much more readable:
 
 ```javascript
 // Property description builder
 const buildPropertyDescription = (property) => {
-    const { address, price, bedrooms, bathrooms, area, features } = property;
-    
-    return `
+  const { address, price, bedrooms, bathrooms, area, features } = property;
+
+  return `
         🏠 ${address}
         💰 $${price.toLocaleString()}
         🛏️  ${bedrooms} bedrooms | 🚿 ${bathrooms} bathrooms
         📐 ${area}m² (${Math.round(price / area)}/m²)
-        ✨ Features: ${features.join(', ')}
-        
-        ${price > 1000000 ? '🔥 Premium Property' : '💰 Great Value'}
+        ✨ Features: ${features.join(", ")}
+
+        ${price > 1000000 ? "🔥 Premium Property" : "💰 Great Value"}
     `;
 };
 
 // Multi-line HTML templates (useful before learning React)
 const createPropertyHTML = (property) => `
     <article class="property-listing">
-        <img src="images/property-${property.id}.jpg" 
+        <img src="images/property-${property.id}.jpg"
              alt="Property at ${property.address}" />
         <div class="property-content">
             <h2>${property.address}</h2>
@@ -153,13 +286,12 @@ const createPropertyHTML = (property) => `
 
 // Tagged template literals for advanced use cases
 const currency = (strings, ...values) => {
-    return strings.reduce((result, string, i) => {
-        const value = values[i];
-        const formattedValue = typeof value === 'number' 
-            ? `$${value.toLocaleString()}` 
-            : value;
-        return result + string + (formattedValue || '');
-    }, '');
+  return strings.reduce((result, string, i) => {
+    const value = values[i];
+    const formattedValue =
+      typeof value === "number" ? `$${value.toLocaleString()}` : value;
+    return result + string + (formattedValue || "");
+  }, "");
 };
 
 const propertyPrice = 1200000;
@@ -202,10 +334,10 @@ export default {
 };
 
 // File: components/PropertyAnalyzer.js
-import { 
-    calculatePricePerSqm, 
-    calculateStampDuty, 
-    formatCurrency 
+import {
+    calculatePricePerSqm,
+    calculateStampDuty,
+    formatCurrency
 } from '../utils/propertyCalculations.js';
 
 // Or import default export
@@ -216,10 +348,10 @@ class PropertyAnalyzer {
         this.property = property;
         this.analysis = this.analyze();
     }
-    
+
     analyze() {
         const { price, area } = this.property;
-        
+
         return {
             pricePerSqm: calculatePricePerSqm(price, area),
             stampDuty: calculateStampDuty(price),
@@ -227,10 +359,10 @@ class PropertyAnalyzer {
             formattedPrice: formatCurrency(price)
         };
     }
-    
+
     getReport() {
         const { pricePerSqm, stampDuty, totalCost } = this.analysis;
-        
+
         return `
             Property Analysis Report
             ========================
@@ -255,79 +387,79 @@ Modern web applications heavily rely on asynchronous operations for API calls an
 
 // Using fetch API to get property data
 const fetchProperties = async (suburb) => {
-    try {
-        const response = await fetch(`/api/properties?suburb=${suburb}`);
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const properties = await response.json();
-        return properties;
-    } catch (error) {
-        console.error('Error fetching properties:', error);
-        throw error; // Re-throw to handle in calling code
+  try {
+    const response = await fetch(`/api/properties?suburb=${suburb}`);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+
+    const properties = await response.json();
+    return properties;
+  } catch (error) {
+    console.error("Error fetching properties:", error);
+    throw error; // Re-throw to handle in calling code
+  }
 };
 
 // Multiple concurrent requests
 const fetchPropertyDetails = async (propertyId) => {
-    try {
-        const [property, images, inspections] = await Promise.all([
-            fetch(`/api/properties/${propertyId}`).then(r => r.json()),
-            fetch(`/api/properties/${propertyId}/images`).then(r => r.json()),
-            fetch(`/api/properties/${propertyId}/inspections`).then(r => r.json())
-        ]);
-        
-        return { property, images, inspections };
-    } catch (error) {
-        console.error('Error fetching property details:', error);
-        throw error;
-    }
+  try {
+    const [property, images, inspections] = await Promise.all([
+      fetch(`/api/properties/${propertyId}`).then((r) => r.json()),
+      fetch(`/api/properties/${propertyId}/images`).then((r) => r.json()),
+      fetch(`/api/properties/${propertyId}/inspections`).then((r) => r.json()),
+    ]);
+
+    return { property, images, inspections };
+  } catch (error) {
+    console.error("Error fetching property details:", error);
+    throw error;
+  }
 };
 
 // Property search with debouncing (wait for user to stop typing)
 class PropertySearch {
-    constructor() {
-        this.searchTimeout = null;
-        this.cache = new Map();
-    }
-    
-    // Debounced search function
-    async search(query, delay = 300) {
-        return new Promise((resolve, reject) => {
-            // Clear previous timeout
-            clearTimeout(this.searchTimeout);
-            
-            this.searchTimeout = setTimeout(async () => {
-                try {
-                    // Check cache first
-                    if (this.cache.has(query)) {
-                        resolve(this.cache.get(query));
-                        return;
-                    }
-                    
-                    const results = await this.performSearch(query);
-                    this.cache.set(query, results);
-                    resolve(results);
-                } catch (error) {
-                    reject(error);
-                }
-            }, delay);
-        });
-    }
-    
-    async performSearch(query) {
-        const response = await fetch('/api/properties/search', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ query })
-        });
-        
-        return response.json();
-    }
+  constructor() {
+    this.searchTimeout = null;
+    this.cache = new Map();
+  }
+
+  // Debounced search function
+  async search(query, delay = 300) {
+    return new Promise((resolve, reject) => {
+      // Clear previous timeout
+      clearTimeout(this.searchTimeout);
+
+      this.searchTimeout = setTimeout(async () => {
+        try {
+          // Check cache first
+          if (this.cache.has(query)) {
+            resolve(this.cache.get(query));
+            return;
+          }
+
+          const results = await this.performSearch(query);
+          this.cache.set(query, results);
+          resolve(results);
+        } catch (error) {
+          reject(error);
+        }
+      }, delay);
+    });
+  }
+
+  async performSearch(query) {
+    const response = await fetch("/api/properties/search", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ query }),
+    });
+
+    return response.json();
+  }
 }
 
 // Usage example
@@ -335,16 +467,16 @@ const propertySearch = new PropertySearch();
 
 // In an event handler (like input change)
 const handleSearchInput = async (event) => {
-    const query = event.target.value;
-    
-    if (query.length < 2) return;
-    
-    try {
-        const results = await propertySearch.search(query);
-        displaySearchResults(results);
-    } catch (error) {
-        showErrorMessage('Search failed. Please try again.');
-    }
+  const query = event.target.value;
+
+  if (query.length < 2) return;
+
+  try {
+    const results = await propertySearch.search(query);
+    displaySearchResults(results);
+  } catch (error) {
+    showErrorMessage("Search failed. Please try again.");
+  }
 };
 ```
 
@@ -354,123 +486,123 @@ const handleSearchInput = async (event) => {
 // File: services/realEstateAPI.js
 
 class RealEstateAPI {
-    constructor(apiKey) {
-        this.apiKey = apiKey;
-        this.baseUrl = 'https://api.realestate.com.au/v1';
-        this.rateLimitDelay = 1000; // 1 second between requests
-        this.lastRequestTime = 0;
+  constructor(apiKey) {
+    this.apiKey = apiKey;
+    this.baseUrl = "https://api.realestate.com.au/v1";
+    this.rateLimitDelay = 1000; // 1 second between requests
+    this.lastRequestTime = 0;
+  }
+
+  // Rate limiting wrapper
+  async makeRequest(endpoint, options = {}) {
+    const now = Date.now();
+    const timeSinceLastRequest = now - this.lastRequestTime;
+
+    if (timeSinceLastRequest < this.rateLimitDelay) {
+      await this.delay(this.rateLimitDelay - timeSinceLastRequest);
     }
-    
-    // Rate limiting wrapper
-    async makeRequest(endpoint, options = {}) {
-        const now = Date.now();
-        const timeSinceLastRequest = now - this.lastRequestTime;
-        
-        if (timeSinceLastRequest < this.rateLimitDelay) {
-            await this.delay(this.rateLimitDelay - timeSinceLastRequest);
-        }
-        
-        this.lastRequestTime = Date.now();
-        
-        const response = await fetch(`${this.baseUrl}${endpoint}`, {
-            headers: {
-                'Authorization': `Bearer ${this.apiKey}`,
-                'Content-Type': 'application/json',
-                ...options.headers
-            },
-            ...options
-        });
-        
-        if (!response.ok) {
-            throw new Error(`API request failed: ${response.status} ${response.statusText}`);
-        }
-        
-        return response.json();
+
+    this.lastRequestTime = Date.now();
+
+    const response = await fetch(`${this.baseUrl}${endpoint}`, {
+      headers: {
+        Authorization: `Bearer ${this.apiKey}`,
+        "Content-Type": "application/json",
+        ...options.headers,
+      },
+      ...options,
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `API request failed: ${response.status} ${response.statusText}`
+      );
     }
-    
-    delay(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
+
+    return response.json();
+  }
+
+  delay(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  // Get properties by suburb
+  async getPropertiesBySuburb(suburb, filters = {}) {
+    const queryParams = new URLSearchParams({
+      suburb: suburb,
+      ...filters,
+    });
+
+    return this.makeRequest(`/properties?${queryParams}`);
+  }
+
+  // Get property details
+  async getPropertyById(id) {
+    return this.makeRequest(`/properties/${id}`);
+  }
+
+  // Get market data
+  async getMarketData(suburb) {
+    return this.makeRequest(`/market/suburb/${suburb}`);
+  }
+
+  // Batch property requests
+  async getMultipleProperties(propertyIds) {
+    const batchSize = 10; // API might have batch limits
+    const batches = [];
+
+    for (let i = 0; i < propertyIds.length; i += batchSize) {
+      const batch = propertyIds.slice(i, i + batchSize);
+      batches.push(batch);
     }
-    
-    // Get properties by suburb
-    async getPropertiesBySuburb(suburb, filters = {}) {
-        const queryParams = new URLSearchParams({
-            suburb: suburb,
-            ...filters
-        });
-        
-        return this.makeRequest(`/properties?${queryParams}`);
+
+    const results = [];
+
+    for (const batch of batches) {
+      const batchPromises = batch.map((id) => this.getPropertyById(id));
+      const batchResults = await Promise.allSettled(batchPromises);
+
+      results.push(
+        ...batchResults.map((result, index) => ({
+          id: batch[index],
+          success: result.status === "fulfilled",
+          data: result.status === "fulfilled" ? result.value : null,
+          error: result.status === "rejected" ? result.reason : null,
+        }))
+      );
     }
-    
-    // Get property details
-    async getPropertyById(id) {
-        return this.makeRequest(`/properties/${id}`);
-    }
-    
-    // Get market data
-    async getMarketData(suburb) {
-        return this.makeRequest(`/market/suburb/${suburb}`);
-    }
-    
-    // Batch property requests
-    async getMultipleProperties(propertyIds) {
-        const batchSize = 10; // API might have batch limits
-        const batches = [];
-        
-        for (let i = 0; i < propertyIds.length; i += batchSize) {
-            const batch = propertyIds.slice(i, i + batchSize);
-            batches.push(batch);
-        }
-        
-        const results = [];
-        
-        for (const batch of batches) {
-            const batchPromises = batch.map(id => this.getPropertyById(id));
-            const batchResults = await Promise.allSettled(batchPromises);
-            
-            results.push(...batchResults.map((result, index) => ({
-                id: batch[index],
-                success: result.status === 'fulfilled',
-                data: result.status === 'fulfilled' ? result.value : null,
-                error: result.status === 'rejected' ? result.reason : null
-            })));
-        }
-        
-        return results;
-    }
+
+    return results;
+  }
 }
 
 // Usage
-const api = new RealEstateAPI('your-api-key');
+const api = new RealEstateAPI("your-api-key");
 
 // Example: Property search with error handling
 const searchProperties = async (searchCriteria) => {
-    const loadingElement = document.getElementById('loading');
-    const resultsElement = document.getElementById('results');
-    const errorElement = document.getElementById('error');
-    
-    try {
-        loadingElement.style.display = 'block';
-        errorElement.style.display = 'none';
-        
-        const properties = await api.getPropertiesBySuburb(
-            searchCriteria.suburb,
-            {
-                minPrice: searchCriteria.minPrice,
-                maxPrice: searchCriteria.maxPrice,
-                propertyType: searchCriteria.type
-            }
-        );
-        
-        displayProperties(properties);
-        
-    } catch (error) {
-        console.error('Property search failed:', error);
-        errorElement.textContent = 'Failed to load properties. Please try again.';
-        errorElement.style.display = 'block';
-    } finally {
-        loadingElement.style.display = 'none';
-    }
+  const loadingElement = document.getElementById("loading");
+  const resultsElement = document.getElementById("results");
+  const errorElement = document.getElementById("error");
+
+  try {
+    loadingElement.style.display = "block";
+    errorElement.style.display = "none";
+
+    const properties = await api.getPropertiesBySuburb(searchCriteria.suburb, {
+      minPrice: searchCriteria.minPrice,
+      maxPrice: searchCriteria.maxPrice,
+      propertyType: searchCriteria.type,
+    });
+
+    displayProperties(properties);
+  } catch (error) {
+    console.error("Property search failed:", error);
+    errorElement.textContent = "Failed to load properties. Please try again.";
+    errorElement.style.display = "block";
+  } finally {
+    loadingElement.style.display = "none";
+  }
 };
 ```
 
@@ -486,49 +618,49 @@ React revolutionises how we build user interfaces by introducing a component-bas
 
 ```jsx
 // File: components/PropertyCard.jsx
-import React from 'react';
+import React from "react";
 
 // Functional component (modern React approach)
 const PropertyCard = ({ property }) => {
-    const { id, address, price, bedrooms, bathrooms, area, image } = property;
-    
-    const formatPrice = (price) => {
-        return new Intl.NumberFormat('en-AU', {
-            style: 'currency',
-            currency: 'AUD',
-            minimumFractionDigits: 0
-        }).format(price);
-    };
-    
-    const handleCardClick = () => {
-        console.log(`Property ${id} clicked`);
-        // Navigate to property details
-    };
-    
-    return (
-        <div className="property-card" onClick={handleCardClick}>
-            <img 
-                src={image || '/images/placeholder-property.jpg'} 
-                alt={`Property at ${address}`}
-                className="property-image"
-            />
-            
-            <div className="property-content">
-                <h3 className="property-address">{address}</h3>
-                <p className="property-price">{formatPrice(price)}</p>
-                
-                <div className="property-details">
-                    <span>{bedrooms} bed</span>
-                    <span>{bathrooms} bath</span>
-                    <span>{area}m²</span>
-                </div>
-                
-                <p className="price-per-sqm">
-                    {formatPrice(Math.round(price / area))}/m²
-                </p>
-            </div>
+  const { id, address, price, bedrooms, bathrooms, area, image } = property;
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat("en-AU", {
+      style: "currency",
+      currency: "AUD",
+      minimumFractionDigits: 0,
+    }).format(price);
+  };
+
+  const handleCardClick = () => {
+    console.log(`Property ${id} clicked`);
+    // Navigate to property details
+  };
+
+  return (
+    <div className="property-card" onClick={handleCardClick}>
+      <img
+        src={image || "/images/placeholder-property.jpg"}
+        alt={`Property at ${address}`}
+        className="property-image"
+      />
+
+      <div className="property-content">
+        <h3 className="property-address">{address}</h3>
+        <p className="property-price">{formatPrice(price)}</p>
+
+        <div className="property-details">
+          <span>{bedrooms} bed</span>
+          <span>{bathrooms} bath</span>
+          <span>{area}m²</span>
         </div>
-    );
+
+        <p className="price-per-sqm">
+          {formatPrice(Math.round(price / area))}/m²
+        </p>
+      </div>
+    </div>
+  );
 };
 
 export default PropertyCard;
@@ -540,176 +672,172 @@ export default PropertyCard;
 
 ```jsx
 // File: components/PropertySearch.jsx
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const PropertySearch = ({ onSearch }) => {
-    // State for form inputs
-    const [searchCriteria, setSearchCriteria] = useState({
-        suburb: '',
-        minPrice: '',
-        maxPrice: '',
-        propertyType: 'any',
-        bedrooms: 'any'
-    });
-    
-    // State for UI
-    const [isSearching, setIsSearching] = useState(false);
-    const [errors, setErrors] = useState({});
-    
-    // Handle input changes
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        
-        setSearchCriteria(prev => ({
-            ...prev,
-            [name]: value
-        }));
-        
-        // Clear error when user starts typing
-        if (errors[name]) {
-            setErrors(prev => ({
-                ...prev,
-                [name]: ''
-            }));
-        }
-    };
-    
-    // Validate form
-    const validateForm = () => {
-        const newErrors = {};
-        
-        if (!searchCriteria.suburb.trim()) {
-            newErrors.suburb = 'Suburb is required';
-        }
-        
-        if (searchCriteria.minPrice && searchCriteria.maxPrice) {
-            if (parseInt(searchCriteria.minPrice) >= parseInt(searchCriteria.maxPrice)) {
-                newErrors.maxPrice = 'Max price must be greater than min price';
-            }
-        }
-        
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
-    
-    // Handle form submission
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        
-        if (!validateForm()) return;
-        
-        setIsSearching(true);
-        
-        try {
-            await onSearch(searchCriteria);
-        } catch (error) {
-            console.error('Search failed:', error);
-            setErrors({ general: 'Search failed. Please try again.' });
-        } finally {
-            setIsSearching(false);
-        }
-    };
-    
-    return (
-        <form onSubmit={handleSubmit} className="property-search-form">
-            <div className="form-grid">
-                <div className="form-group">
-                    <label htmlFor="suburb">Suburb *</label>
-                    <input
-                        type="text"
-                        id="suburb"
-                        name="suburb"
-                        value={searchCriteria.suburb}
-                        onChange={handleInputChange}
-                        placeholder="e.g. Bondi Beach"
-                        className={errors.suburb ? 'error' : ''}
-                    />
-                    {errors.suburb && (
-                        <span className="error-message">{errors.suburb}</span>
-                    )}
-                </div>
-                
-                <div className="form-group">
-                    <label htmlFor="propertyType">Property Type</label>
-                    <select
-                        id="propertyType"
-                        name="propertyType"
-                        value={searchCriteria.propertyType}
-                        onChange={handleInputChange}
-                    >
-                        <option value="any">Any Property Type</option>
-                        <option value="house">House</option>
-                        <option value="apartment">Apartment</option>
-                        <option value="townhouse">Townhouse</option>
-                        <option value="villa">Villa</option>
-                    </select>
-                </div>
-                
-                <div className="form-group">
-                    <label htmlFor="minPrice">Min Price</label>
-                    <input
-                        type="number"
-                        id="minPrice"
-                        name="minPrice"
-                        value={searchCriteria.minPrice}
-                        onChange={handleInputChange}
-                        placeholder="500000"
-                        min="0"
-                        step="50000"
-                    />
-                </div>
-                
-                <div className="form-group">
-                    <label htmlFor="maxPrice">Max Price</label>
-                    <input
-                        type="number"
-                        id="maxPrice"
-                        name="maxPrice"
-                        value={searchCriteria.maxPrice}
-                        onChange={handleInputChange}
-                        placeholder="2000000"
-                        min="0"
-                        step="50000"
-                        className={errors.maxPrice ? 'error' : ''}
-                    />
-                    {errors.maxPrice && (
-                        <span className="error-message">{errors.maxPrice}</span>
-                    )}
-                </div>
-                
-                <div className="form-group">
-                    <label htmlFor="bedrooms">Bedrooms</label>
-                    <select
-                        id="bedrooms"
-                        name="bedrooms"
-                        value={searchCriteria.bedrooms}
-                        onChange={handleInputChange}
-                    >
-                        <option value="any">Any</option>
-                        <option value="1">1+</option>
-                        <option value="2">2+</option>
-                        <option value="3">3+</option>
-                        <option value="4">4+</option>
-                        <option value="5">5+</option>
-                    </select>
-                </div>
-            </div>
-            
-            {errors.general && (
-                <div className="error-message general-error">
-                    {errors.general}
-                </div>
-            )}
-            
-            <button 
-                type="submit" 
-                disabled={isSearching}
-                className="search-button"
-            >
-                {isSearching ? 'Searching...' : 'Search Properties'}
-            </button>
-        </form>
-    );
+  // State for form inputs
+  const [searchCriteria, setSearchCriteria] = useState({
+    suburb: "",
+    minPrice: "",
+    maxPrice: "",
+    propertyType: "any",
+    bedrooms: "any",
+  });
+
+  // State for UI
+  const [isSearching, setIsSearching] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  // Handle input changes
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+
+    setSearchCriteria((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: "",
+      }));
+    }
+  };
+
+  // Validate form
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!searchCriteria.suburb.trim()) {
+      newErrors.suburb = "Suburb is required";
+    }
+
+    if (searchCriteria.minPrice && searchCriteria.maxPrice) {
+      if (
+        parseInt(searchCriteria.minPrice) >= parseInt(searchCriteria.maxPrice)
+      ) {
+        newErrors.maxPrice = "Max price must be greater than min price";
+      }
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // Handle form submission
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!validateForm()) return;
+
+    setIsSearching(true);
+
+    try {
+      await onSearch(searchCriteria);
+    } catch (error) {
+      console.error("Search failed:", error);
+      setErrors({ general: "Search failed. Please try again." });
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="property-search-form">
+      <div className="form-grid">
+        <div className="form-group">
+          <label htmlFor="suburb">Suburb *</label>
+          <input
+            type="text"
+            id="suburb"
+            name="suburb"
+            value={searchCriteria.suburb}
+            onChange={handleInputChange}
+            placeholder="e.g. Bondi Beach"
+            className={errors.suburb ? "error" : ""}
+          />
+          {errors.suburb && (
+            <span className="error-message">{errors.suburb}</span>
+          )}
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="propertyType">Property Type</label>
+          <select
+            id="propertyType"
+            name="propertyType"
+            value={searchCriteria.propertyType}
+            onChange={handleInputChange}
+          >
+            <option value="any">Any Property Type</option>
+            <option value="house">House</option>
+            <option value="apartment">Apartment</option>
+            <option value="townhouse">Townhouse</option>
+            <option value="villa">Villa</option>
+          </select>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="minPrice">Min Price</label>
+          <input
+            type="number"
+            id="minPrice"
+            name="minPrice"
+            value={searchCriteria.minPrice}
+            onChange={handleInputChange}
+            placeholder="500000"
+            min="0"
+            step="50000"
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="maxPrice">Max Price</label>
+          <input
+            type="number"
+            id="maxPrice"
+            name="maxPrice"
+            value={searchCriteria.maxPrice}
+            onChange={handleInputChange}
+            placeholder="2000000"
+            min="0"
+            step="50000"
+            className={errors.maxPrice ? "error" : ""}
+          />
+          {errors.maxPrice && (
+            <span className="error-message">{errors.maxPrice}</span>
+          )}
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="bedrooms">Bedrooms</label>
+          <select
+            id="bedrooms"
+            name="bedrooms"
+            value={searchCriteria.bedrooms}
+            onChange={handleInputChange}
+          >
+            <option value="any">Any</option>
+            <option value="1">1+</option>
+            <option value="2">2+</option>
+            <option value="3">3+</option>
+            <option value="4">4+</option>
+            <option value="5">5+</option>
+          </select>
+        </div>
+      </div>
+
+      {errors.general && (
+        <div className="error-message general-error">{errors.general}</div>
+      )}
+
+      <button type="submit" disabled={isSearching} className="search-button">
+        {isSearching ? "Searching..." : "Search Properties"}
+      </button>
+    </form>
+  );
 };
 
 export default PropertySearch;
@@ -721,126 +849,115 @@ export default PropertySearch;
 
 ```jsx
 // File: components/PropertyDashboard.jsx
-import React, { useState, useEffect } from 'react';
-import PropertyCard from './PropertyCard';
-import PropertySearch from './PropertySearch';
+import React, { useState, useEffect } from "react";
+import PropertyCard from "./PropertyCard";
+import PropertySearch from "./PropertySearch";
 
 const PropertyDashboard = () => {
-    const [properties, setProperties] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [searchResults, setSearchResults] = useState(null);
-    
-    // Fetch initial properties when component mounts
-    useEffect(() => {
-        const fetchInitialProperties = async () => {
-            try {
-                setLoading(true);
-                setError(null);
-                
-                const response = await fetch('/api/properties/featured');
-                
-                if (!response.ok) {
-                    throw new Error('Failed to fetch properties');
-                }
-                
-                const data = await response.json();
-                setProperties(data);
-                
-            } catch (err) {
-                console.error('Error fetching properties:', err);
-                setError('Failed to load properties. Please refresh the page.');
-            } finally {
-                setLoading(false);
-            }
-        };
-        
-        fetchInitialProperties();
-    }, []); // Empty dependency array means this runs once on mount
-    
-    // Handle search
-    const handleSearch = async (searchCriteria) => {
-        try {
-            setLoading(true);
-            setError(null);
-            
-            const queryParams = new URLSearchParams(searchCriteria);
-            const response = await fetch(`/api/properties/search?${queryParams}`);
-            
-            if (!response.ok) {
-                throw new Error('Search failed');
-            }
-            
-            const results = await response.json();
-            setSearchResults(results);
-            
-        } catch (err) {
-            console.error('Search error:', err);
-            setError('Search failed. Please try again.');
-            throw err; // Re-throw for form to handle
-        } finally {
-            setLoading(false);
+  const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [searchResults, setSearchResults] = useState(null);
+
+  // Fetch initial properties when component mounts
+  useEffect(() => {
+    const fetchInitialProperties = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const response = await fetch("/api/properties/featured");
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch properties");
         }
+
+        const data = await response.json();
+        setProperties(data);
+      } catch (err) {
+        console.error("Error fetching properties:", err);
+        setError("Failed to load properties. Please refresh the page.");
+      } finally {
+        setLoading(false);
+      }
     };
-    
-    // Clear search results
-    const clearSearch = () => {
-        setSearchResults(null);
-    };
-    
-    const displayedProperties = searchResults || properties;
-    
-    return (
-        <div className="property-dashboard">
-            <header className="dashboard-header">
-                <h1>Property Central</h1>
-                <p>Find your perfect property</p>
-            </header>
-            
-            <PropertySearch onSearch={handleSearch} />
-            
-            {searchResults && (
-                <div className="search-results-header">
-                    <p>{searchResults.length} properties found</p>
-                    <button onClick={clearSearch} className="clear-search">
-                        Clear Search
-                    </button>
-                </div>
-            )}
-            
-            {error && (
-                <div className="error-message">
-                    {error}
-                </div>
-            )}
-            
-            {loading ? (
-                <div className="loading">
-                    <p>Loading properties...</p>
-                </div>
-            ) : (
-                <div className="properties-grid">
-                    {displayedProperties.length > 0 ? (
-                        displayedProperties.map(property => (
-                            <PropertyCard 
-                                key={property.id} 
-                                property={property} 
-                            />
-                        ))
-                    ) : (
-                        <div className="no-properties">
-                            <p>No properties found</p>
-                            {searchResults && (
-                                <button onClick={clearSearch}>
-                                    View all properties
-                                </button>
-                            )}
-                        </div>
-                    )}
-                </div>
-            )}
+
+    fetchInitialProperties();
+  }, []); // Empty dependency array means this runs once on mount
+
+  // Handle search
+  const handleSearch = async (searchCriteria) => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const queryParams = new URLSearchParams(searchCriteria);
+      const response = await fetch(`/api/properties/search?${queryParams}`);
+
+      if (!response.ok) {
+        throw new Error("Search failed");
+      }
+
+      const results = await response.json();
+      setSearchResults(results);
+    } catch (err) {
+      console.error("Search error:", err);
+      setError("Search failed. Please try again.");
+      throw err; // Re-throw for form to handle
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Clear search results
+  const clearSearch = () => {
+    setSearchResults(null);
+  };
+
+  const displayedProperties = searchResults || properties;
+
+  return (
+    <div className="property-dashboard">
+      <header className="dashboard-header">
+        <h1>Property Central</h1>
+        <p>Find your perfect property</p>
+      </header>
+
+      <PropertySearch onSearch={handleSearch} />
+
+      {searchResults && (
+        <div className="search-results-header">
+          <p>{searchResults.length} properties found</p>
+          <button onClick={clearSearch} className="clear-search">
+            Clear Search
+          </button>
         </div>
-    );
+      )}
+
+      {error && <div className="error-message">{error}</div>}
+
+      {loading ? (
+        <div className="loading">
+          <p>Loading properties...</p>
+        </div>
+      ) : (
+        <div className="properties-grid">
+          {displayedProperties.length > 0 ? (
+            displayedProperties.map((property) => (
+              <PropertyCard key={property.id} property={property} />
+            ))
+          ) : (
+            <div className="no-properties">
+              <p>No properties found</p>
+              {searchResults && (
+                <button onClick={clearSearch}>View all properties</button>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default PropertyDashboard;
@@ -852,143 +969,145 @@ Custom hooks let you reuse stateful logic:
 
 ```jsx
 // File: hooks/usePropertyData.js
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 const usePropertyData = (propertyId) => {
-    const [property, setProperty] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    
-    useEffect(() => {
-        if (!propertyId) {
-            setLoading(false);
-            return;
+  const [property, setProperty] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (!propertyId) {
+      setLoading(false);
+      return;
+    }
+
+    const fetchProperty = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const response = await fetch(`/api/properties/${propertyId}`);
+
+        if (!response.ok) {
+          throw new Error("Property not found");
         }
-        
-        const fetchProperty = async () => {
-            try {
-                setLoading(true);
-                setError(null);
-                
-                const response = await fetch(`/api/properties/${propertyId}`);
-                
-                if (!response.ok) {
-                    throw new Error('Property not found');
-                }
-                
-                const data = await response.json();
-                setProperty(data);
-                
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-        
-        fetchProperty();
-    }, [propertyId]);
-    
-    return { property, loading, error };
+
+        const data = await response.json();
+        setProperty(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProperty();
+  }, [propertyId]);
+
+  return { property, loading, error };
 };
 
 // File: hooks/useLocalStorage.js
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 const useLocalStorage = (key, initialValue) => {
-    // Get value from localStorage or use initial value
-    const [storedValue, setStoredValue] = useState(() => {
-        try {
-            const item = window.localStorage.getItem(key);
-            return item ? JSON.parse(item) : initialValue;
-        } catch (error) {
-            console.error(`Error reading localStorage key "${key}":`, error);
-            return initialValue;
-        }
-    });
-    
-    // Return a wrapped version of useState's setter function that persists the new value to localStorage
-    const setValue = (value) => {
-        try {
-            // Allow value to be a function so we have the same API as useState
-            const valueToStore = value instanceof Function ? value(storedValue) : value;
-            setStoredValue(valueToStore);
-            window.localStorage.setItem(key, JSON.stringify(valueToStore));
-        } catch (error) {
-            console.error(`Error setting localStorage key "${key}":`, error);
-        }
-    };
-    
-    return [storedValue, setValue];
+  // Get value from localStorage or use initial value
+  const [storedValue, setStoredValue] = useState(() => {
+    try {
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } catch (error) {
+      console.error(`Error reading localStorage key "${key}":`, error);
+      return initialValue;
+    }
+  });
+
+  // Return a wrapped version of useState's setter function that persists the new value to localStorage
+  const setValue = (value) => {
+    try {
+      // Allow value to be a function so we have the same API as useState
+      const valueToStore =
+        value instanceof Function ? value(storedValue) : value;
+      setStoredValue(valueToStore);
+      window.localStorage.setItem(key, JSON.stringify(valueToStore));
+    } catch (error) {
+      console.error(`Error setting localStorage key "${key}":`, error);
+    }
+  };
+
+  return [storedValue, setValue];
 };
 
 // File: hooks/usePropertyFavorites.js
-import { useLocalStorage } from './useLocalStorage';
+import { useLocalStorage } from "./useLocalStorage";
 
 const usePropertyFavorites = () => {
-    const [favorites, setFavorites] = useLocalStorage('propertyFavorites', []);
-    
-    const addToFavorites = (propertyId) => {
-        setFavorites(prev => {
-            if (prev.includes(propertyId)) {
-                return prev; // Already in favorites
-            }
-            return [...prev, propertyId];
-        });
-    };
-    
-    const removeFromFavorites = (propertyId) => {
-        setFavorites(prev => prev.filter(id => id !== propertyId));
-    };
-    
-    const toggleFavorite = (propertyId) => {
-        if (favorites.includes(propertyId)) {
-            removeFromFavorites(propertyId);
-        } else {
-            addToFavorites(propertyId);
-        }
-    };
-    
-    const isFavorite = (propertyId) => {
-        return favorites.includes(propertyId);
-    };
-    
-    return {
-        favorites,
-        addToFavorites,
-        removeFromFavorites,
-        toggleFavorite,
-        isFavorite
-    };
+  const [favorites, setFavorites] = useLocalStorage("propertyFavorites", []);
+
+  const addToFavorites = (propertyId) => {
+    setFavorites((prev) => {
+      if (prev.includes(propertyId)) {
+        return prev; // Already in favorites
+      }
+      return [...prev, propertyId];
+    });
+  };
+
+  const removeFromFavorites = (propertyId) => {
+    setFavorites((prev) => prev.filter((id) => id !== propertyId));
+  };
+
+  const toggleFavorite = (propertyId) => {
+    if (favorites.includes(propertyId)) {
+      removeFromFavorites(propertyId);
+    } else {
+      addToFavorites(propertyId);
+    }
+  };
+
+  const isFavorite = (propertyId) => {
+    return favorites.includes(propertyId);
+  };
+
+  return {
+    favorites,
+    addToFavorites,
+    removeFromFavorites,
+    toggleFavorite,
+    isFavorite,
+  };
 };
 
 // Usage in component
 // File: components/PropertyCard.jsx
-import React from 'react';
-import { usePropertyFavorites } from '../hooks/usePropertyFavorites';
+import React from "react";
+import { usePropertyFavorites } from "../hooks/usePropertyFavorites";
 
 const PropertyCard = ({ property }) => {
-    const { toggleFavorite, isFavorite } = usePropertyFavorites();
-    const isPropertyFavorite = isFavorite(property.id);
-    
-    const handleFavoriteClick = (event) => {
-        event.stopPropagation(); // Prevent card click
-        toggleFavorite(property.id);
-    };
-    
-    return (
-        <div className="property-card">
-            {/* Property content */}
-            
-            <button 
-                className={`favorite-button ${isPropertyFavorite ? 'active' : ''}`}
-                onClick={handleFavoriteClick}
-                aria-label={isPropertyFavorite ? 'Remove from favorites' : 'Add to favorites'}
-            >
-                {isPropertyFavorite ? '❤️' : '🤍'}
-            </button>
-        </div>
-    );
+  const { toggleFavorite, isFavorite } = usePropertyFavorites();
+  const isPropertyFavorite = isFavorite(property.id);
+
+  const handleFavoriteClick = (event) => {
+    event.stopPropagation(); // Prevent card click
+    toggleFavorite(property.id);
+  };
+
+  return (
+    <div className="property-card">
+      {/* Property content */}
+
+      <button
+        className={`favorite-button ${isPropertyFavorite ? "active" : ""}`}
+        onClick={handleFavoriteClick}
+        aria-label={
+          isPropertyFavorite ? "Remove from favorites" : "Add to favorites"
+        }
+      >
+        {isPropertyFavorite ? "❤️" : "🤍"}
+      </button>
+    </div>
+  );
 };
 ```
 
@@ -1071,47 +1190,47 @@ npm install leaflet react-leaflet # Maps for property locations
 
 ```javascript
 // File: vite.config.js
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import path from 'path';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path from "path";
 
 export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
-      '@components': path.resolve(__dirname, './src/components'),
-      '@hooks': path.resolve(__dirname, './src/hooks'),
-      '@utils': path.resolve(__dirname, './src/utils'),
-      '@services': path.resolve(__dirname, './src/services')
-    }
+      "@": path.resolve(__dirname, "./src"),
+      "@components": path.resolve(__dirname, "./src/components"),
+      "@hooks": path.resolve(__dirname, "./src/hooks"),
+      "@utils": path.resolve(__dirname, "./src/utils"),
+      "@services": path.resolve(__dirname, "./src/services"),
+    },
   },
   server: {
     port: 3000,
     open: true, // Automatically open browser
     proxy: {
       // Proxy API requests to development server
-      '/api': {
-        target: 'http://localhost:8000',
+      "/api": {
+        target: "http://localhost:8000",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
-      }
-    }
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
   },
   build: {
-    outDir: 'dist',
+    outDir: "dist",
     sourcemap: true,
     rollupOptions: {
       output: {
         manualChunks: {
           // Split vendor libraries into separate chunks
-          vendor: ['react', 'react-dom'],
-          charts: ['chart.js', 'react-chartjs-2'],
-          maps: ['leaflet', 'react-leaflet']
-        }
-      }
-    }
-  }
+          vendor: ["react", "react-dom"],
+          charts: ["chart.js", "react-chartjs-2"],
+          maps: ["leaflet", "react-leaflet"],
+        },
+      },
+    },
+  },
 });
 ```
 
@@ -1175,7 +1294,7 @@ npm init -y
 npm install react react-dom vite @vitejs/plugin-react
 npm install date-fns chart.js react-chartjs-2
 
-# Install development dependencies  
+# Install development dependencies
 npm install --save-dev eslint eslint-plugin-react prettier
 ```
 
@@ -1183,46 +1302,46 @@ npm install --save-dev eslint eslint-plugin-react prettier
 
 ```jsx
 // File: src/App.jsx
-import React, { useState } from 'react';
-import PropertyDashboard from './components/PropertyDashboard';
-import PropertyDetails from './components/PropertyDetails';
-import './styles/App.css';
+import React, { useState } from "react";
+import PropertyDashboard from "./components/PropertyDashboard";
+import PropertyDetails from "./components/PropertyDetails";
+import "./styles/App.css";
 
 function App() {
   const [selectedProperty, setSelectedProperty] = useState(null);
-  const [view, setView] = useState('dashboard'); // 'dashboard' or 'details'
-  
+  const [view, setView] = useState("dashboard"); // 'dashboard' or 'details'
+
   const handlePropertySelect = (property) => {
     setSelectedProperty(property);
-    setView('details');
+    setView("details");
   };
-  
+
   const handleBackToDashboard = () => {
     setSelectedProperty(null);
-    setView('dashboard');
+    setView("dashboard");
   };
-  
+
   return (
     <div className="app">
       <header className="app-header">
         <h1>Property Analysis Dashboard</h1>
         <nav>
-          <button 
+          <button
             onClick={handleBackToDashboard}
-            className={view === 'dashboard' ? 'active' : ''}
+            className={view === "dashboard" ? "active" : ""}
           >
             Dashboard
           </button>
         </nav>
       </header>
-      
+
       <main className="app-main">
-        {view === 'dashboard' ? (
+        {view === "dashboard" ? (
           <PropertyDashboard onPropertySelect={handlePropertySelect} />
         ) : (
-          <PropertyDetails 
-            property={selectedProperty} 
-            onBack={handleBackToDashboard} 
+          <PropertyDetails
+            property={selectedProperty}
+            onBack={handleBackToDashboard}
           />
         )}
       </main>
@@ -1237,89 +1356,96 @@ export default App;
 
 ```jsx
 // File: src/components/PropertyAnalysis.jsx
-import React, { useMemo } from 'react';
-import { 
-  calculatePricePerSqm, 
-  calculateROI, 
-  calculateStampDuty 
-} from '../utils/propertyCalculations';
+import React, { useMemo } from "react";
+import {
+  calculatePricePerSqm,
+  calculateROI,
+  calculateStampDuty,
+} from "../utils/propertyCalculations";
 
 const PropertyAnalysis = ({ property }) => {
   const analysis = useMemo(() => {
     const pricePerSqm = calculatePricePerSqm(property.price, property.area);
     const stampDuty = calculateStampDuty(property.price);
     const totalCost = property.price + stampDuty;
-    
+
     // Calculate potential rental yield (example calculation)
     const weeklyRent = property.estimatedRent || 0;
     const annualRent = weeklyRent * 52;
     const rentalYield = (annualRent / property.price) * 100;
-    
+
     return {
       pricePerSqm,
       stampDuty,
       totalCost,
       annualRent,
-      rentalYield
+      rentalYield,
     };
   }, [property]);
-  
+
   const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-AU', {
-      style: 'currency',
-      currency: 'AUD',
-      minimumFractionDigits: 0
+    return new Intl.NumberFormat("en-AU", {
+      style: "currency",
+      currency: "AUD",
+      minimumFractionDigits: 0,
     }).format(amount);
   };
-  
+
   const formatPercentage = (value) => {
     return `${value.toFixed(2)}%`;
   };
-  
+
   return (
     <div className="property-analysis">
       <h3>Financial Analysis</h3>
-      
+
       <div className="analysis-grid">
         <div className="analysis-item">
           <label>Price per m²</label>
           <value>{formatCurrency(analysis.pricePerSqm)}</value>
         </div>
-        
+
         <div className="analysis-item">
           <label>Stamp Duty (NSW)</label>
           <value>{formatCurrency(analysis.stampDuty)}</value>
         </div>
-        
+
         <div className="analysis-item">
           <label>Total Cost</label>
           <value>{formatCurrency(analysis.totalCost)}</value>
         </div>
-        
+
         <div className="analysis-item">
           <label>Annual Rental Income</label>
           <value>{formatCurrency(analysis.annualRent)}</value>
         </div>
-        
+
         <div className="analysis-item">
           <label>Rental Yield</label>
-          <value className={analysis.rentalYield > 4 ? 'good' : 'average'}>
+          <value className={analysis.rentalYield > 4 ? "good" : "average"}>
             {formatPercentage(analysis.rentalYield)}
           </value>
         </div>
       </div>
-      
+
       <div className="analysis-summary">
         <h4>Investment Summary</h4>
         <p>
-          This property offers a rental yield of {formatPercentage(analysis.rentalYield)}, 
-          which is {analysis.rentalYield > 5 ? 'excellent' : analysis.rentalYield > 4 ? 'good' : 'moderate'} 
+          This property offers a rental yield of{" "}
+          {formatPercentage(analysis.rentalYield)}, which is{" "}
+          {analysis.rentalYield > 5
+            ? "excellent"
+            : analysis.rentalYield > 4
+            ? "good"
+            : "moderate"}
           for the Sydney market.
         </p>
-        
+
         <p>
-          The price per square metre of {formatCurrency(analysis.pricePerSqm)} 
-          {analysis.pricePerSqm > 10000 ? ' is above average for the area.' : ' represents good value.'}
+          The price per square metre of {formatCurrency(analysis.pricePerSqm)}
+          {analysis.pricePerSqm > 10000
+            ? " is above average for the area."
+            : " represents good value."}
         </p>
       </div>
     </div>
@@ -1339,8 +1465,8 @@ export const calculatePricePerSqm = (price, area) => {
   return Math.round(price / area);
 };
 
-export const calculateStampDuty = (price, state = 'NSW') => {
-  if (state === 'NSW') {
+export const calculateStampDuty = (price, state = "NSW") => {
+  if (state === "NSW") {
     if (price <= 14000) return Math.round(price * 0.0125);
     if (price <= 32000) return 175 + Math.round((price - 14000) * 0.015);
     if (price <= 85000) return 445 + Math.round((price - 32000) * 0.0175);
@@ -1355,31 +1481,35 @@ export const calculateStampDuty = (price, state = 'NSW') => {
 export const calculateMortgagePayment = (principal, rate, years) => {
   const monthlyRate = rate / 100 / 12;
   const numPayments = years * 12;
-  
+
   if (monthlyRate === 0) return principal / numPayments;
-  
-  const monthlyPayment = principal * 
-    (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / 
+
+  const monthlyPayment =
+    (principal * (monthlyRate * Math.pow(1 + monthlyRate, numPayments))) /
     (Math.pow(1 + monthlyRate, numPayments) - 1);
-    
+
   return Math.round(monthlyPayment);
 };
 
-export const calculateROI = (annualIncome, totalInvestment, annualExpenses = 0) => {
+export const calculateROI = (
+  annualIncome,
+  totalInvestment,
+  annualExpenses = 0
+) => {
   const netIncome = annualIncome - annualExpenses;
-  return ((netIncome / totalInvestment) * 100);
+  return (netIncome / totalInvestment) * 100;
 };
 
-export const formatCurrency = (amount, currency = 'AUD') => {
-  return new Intl.NumberFormat('en-AU', {
-    style: 'currency',
+export const formatCurrency = (amount, currency = "AUD") => {
+  return new Intl.NumberFormat("en-AU", {
+    style: "currency",
     currency: currency,
-    minimumFractionDigits: 0
+    minimumFractionDigits: 0,
   }).format(amount);
 };
 
 export const formatNumber = (number) => {
-  return new Intl.NumberFormat('en-AU').format(number);
+  return new Intl.NumberFormat("en-AU").format(number);
 };
 ```
 
@@ -1397,6 +1527,7 @@ npm run dev
 Test your application against these criteria:
 
 #### **Functionality**
+
 - [ ] Property cards display correctly with all information
 - [ ] Search form works with validation
 - [ ] Property details view shows comprehensive analysis
@@ -1404,6 +1535,7 @@ Test your application against these criteria:
 - [ ] All calculations are accurate
 
 #### **Code Quality**
+
 - [ ] Components are properly structured and reusable
 - [ ] State management is efficient and logical
 - [ ] Error handling is implemented throughout
@@ -1411,6 +1543,7 @@ Test your application against these criteria:
 - [ ] Modern JavaScript features are used appropriately
 
 #### **User Experience**
+
 - [ ] Interface is intuitive and responsive
 - [ ] Loading states provide feedback
 - [ ] Error messages are helpful
@@ -1443,6 +1576,9 @@ You're ready for Module 1.2 where you'll learn modern styling with Tailwind CSS 
 - [React Hooks Guide](https://react.dev/reference/react)
 
 **Navigation:**
+
 - [← Previous: Phase 0 - Absolute Beginnings](../../Phase-0-Absolute-Beginnings/README.md)
 - [Next: Module 1.2 - Styling and UI Framework →](Module-1.2-Styling-and-UI-Framework.md)
 - [↑ Back to Phase 1 Overview](README.md)
+```
+````

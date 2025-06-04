@@ -4,14 +4,21 @@ import {
   BookOpen, 
   Menu, 
   X, 
-  Sun, 
-  Moon, 
   Home,
   TrendingUp,
-  Settings
+  Code,
+  User,
+  LogIn,
+  LogOut
 } from 'lucide-react';
 
-const Navigation = ({ curriculumTitle, darkMode, toggleDarkMode }) => {
+const Navigation = ({ 
+  curriculumTitle, 
+  isAuthenticated, 
+  user, 
+  onLogin, 
+  onLogout 
+}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
 
@@ -20,7 +27,7 @@ const Navigation = ({ curriculumTitle, darkMode, toggleDarkMode }) => {
   const navigationItems = [
     { path: '/', label: 'Dashboard', icon: Home },
     { path: '/progress', label: 'Progress', icon: TrendingUp },
-    { path: '/settings', label: 'Settings', icon: Settings },
+    { path: '/ide', label: 'Code IDE', icon: Code },
   ];
 
   return (
@@ -51,24 +58,34 @@ const Navigation = ({ curriculumTitle, darkMode, toggleDarkMode }) => {
               </Link>
             ))}
             
-            {/* Dark Mode Toggle */}
-            <button
-              onClick={toggleDarkMode}
-              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-              aria-label="Toggle dark mode"
-            >
-              {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-            </button>
+            {/* Authentication Section */}
+            {isAuthenticated ? (
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
+                  <User className="h-4 w-4" />
+                  <span className="text-sm">Hi, {user?.name?.split(' ')[0] || 'User'}</span>
+                </div>
+                <button
+                  onClick={onLogout}
+                  className="flex items-center space-x-2 text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-colors"
+                >
+                  <LogOut className="h-4 w-4" />
+                  <span className="text-sm">Logout</span>
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={onLogin}
+                className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                <LogIn className="h-4 w-4" />
+                <span>Login</span>
+              </button>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center space-x-2">
-            <button
-              onClick={toggleDarkMode}
-              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-200"
-            >
-              {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-            </button>
             <button
               onClick={toggleMenu}
               className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-200"

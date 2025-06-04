@@ -3,14 +3,12 @@ import { motion } from 'framer-motion';
 import { 
   ChevronLeft, 
   ChevronRight, 
-  Clock, 
   CheckCircle, 
   Circle,
   BookOpen,
   Star,
   Target,
-  Users,
-  Award
+  Users
 } from 'lucide-react';
 import { useProgress } from '../context/ProgressContext';
 
@@ -101,7 +99,7 @@ const PhaseView = ({ curriculumData }) => {
             </p>
             
             {/* Progress Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="flex items-center space-x-3">
                 <Target className="h-5 w-5 text-primary-600" />
                 <div>
@@ -122,15 +120,7 @@ const PhaseView = ({ curriculumData }) => {
                 </div>
               </div>
               
-              <div className="flex items-center space-x-3">
-                <Users className="h-5 w-5 text-blue-600" />
-                <div>
-                  <div className="text-2xl font-bold text-gray-900 dark:text-white">
-                    {phase.modules.reduce((acc, module) => acc + (module.duration ? parseInt(module.duration) : 0), 0)}h
-                  </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">Estimated Time</div>
-                </div>
-              </div>
+
             </div>
 
             <div className="mt-6">
@@ -186,19 +176,13 @@ const PhaseView = ({ curriculumData }) => {
                   {module.description}
                 </p>
 
-                <div className="flex items-center justify-between mb-4">
-                  {module.duration && (
-                    <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                      <Clock className="h-4 w-4 mr-1" />
-                      {module.duration}
-                    </div>
-                  )}
-                  {module.difficulty && (
+                {module.difficulty && (
+                  <div className="flex justify-end mb-4">
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(module.difficulty)}`}>
                       {module.difficulty}
                     </span>
-                  )}
-                </div>
+                  </div>
+                )}
 
                 {/* Topics Preview */}
                 {module.topics && module.topics.length > 0 && (
@@ -222,15 +206,7 @@ const PhaseView = ({ curriculumData }) => {
                   </div>
                 )}
 
-                {/* Projects Preview */}
-                {module.projects && module.projects.length > 0 && (
-                  <div className="pt-3 border-t border-gray-200 dark:border-gray-700">
-                    <div className="flex items-center text-sm text-gray-700 dark:text-gray-300">
-                      <Award className="h-4 w-4 mr-1" />
-                      {module.projects.length} Project{module.projects.length > 1 ? 's' : ''}
-                    </div>
-                  </div>
-                )}
+
               </Link>
             </motion.div>
           ))}

@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   ChevronRight, 
-  Clock, 
   CheckCircle, 
   Circle,
   BookOpen,
@@ -168,12 +167,7 @@ const Dashboard = ({ curriculumData }) => {
                             <div className="text-sm font-medium text-gray-900 dark:text-white truncate">
                               {module.title}
                             </div>
-                            {module.duration && (
-                              <div className="flex items-center text-xs text-gray-500 dark:text-gray-400">
-                                <Clock className="h-3 w-3 mr-1" />
-                                {module.duration}
-                              </div>
-                            )}
+
                           </div>
                           {bookmarks.has(module.id) && (
                             <Star className="h-4 w-4 text-yellow-500 flex-shrink-0 fill-current" />

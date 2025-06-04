@@ -89,8 +89,7 @@ export function parseModuleMarkdown(filePath) {
       prerequisites,
       sections,
       topics: topics.length > 0 ? topics : sections,
-      projects: projects.length > 0 ? projects : [`Complete hands-on exercises for ${title}`],
-      duration: estimateDuration(content),
+      projects: projects.length > 0 ? projects : [],
       difficulty: determineDifficulty(filePath, content)
     };
     
@@ -100,13 +99,6 @@ export function parseModuleMarkdown(filePath) {
   }
 }
 
-// Estimate reading/completion time based on content length
-function estimateDuration(content) {
-  const wordCount = content.split(/\s+/).length;
-  const readingTime = Math.ceil(wordCount / 200); // 200 words per minute
-  const practiceTime = Math.ceil(readingTime * 2); // Double for hands-on practice
-  return `${Math.max(2, practiceTime)}-${practiceTime + 2} hours`;
-}
 
 // Determine difficulty based on phase and content
 function determineDifficulty(filePath, content) {
@@ -158,7 +150,7 @@ export function generateCurriculumData(rootPath = '../..') {
     try {
       const files = fs.readdirSync(phasePath);
       const moduleFiles = files
-        .filter(file => file.startsWith('Module-') && file.endsWith('.md'))
+        .filter(file => (file.startsWith('Module-') || file === 'Core-Syntax-Overview.md') && file.endsWith('.md'))
         .sort(); // Sort to maintain order
       
       moduleFiles.forEach(fileName => {
@@ -167,7 +159,12 @@ export function generateCurriculumData(rootPath = '../..') {
         
         if (moduleData) {
           // Generate module ID from filename
-          const moduleId = fileName.replace('.md', '').toLowerCase().replace(/\./g, '-');
+          let moduleId;
+          if (fileName === 'Core-Syntax-Overview.md') {
+            moduleId = 'core-syntax-overview';
+          } else {
+            moduleId = fileName.replace('.md', '').toLowerCase().replace(/\./g, '-');
+          }
           
           modules.push({
             id: moduleId,

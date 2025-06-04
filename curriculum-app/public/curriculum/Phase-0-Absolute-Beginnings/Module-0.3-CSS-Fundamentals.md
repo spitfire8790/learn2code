@@ -1,7 +1,9 @@
 # Module 0.3: CSS Fundamentals
 
 ## Learning Objectives
+
 By the end of this module, you will be able to:
+
 - Understand CSS's role in styling and layout
 - Create responsive property website layouts using modern CSS
 - Apply visual design principles for property presentations
@@ -9,6 +11,7 @@ By the end of this module, you will be able to:
 - Style forms and interactive elements effectively
 
 ## Prerequisites
+
 - Completion of Module 0.2: HTML Fundamentals
 - Understanding of HTML document structure and semantic elements
 - Basic familiarity with property website requirements
@@ -28,14 +31,47 @@ This module focuses on practical CSS skills specifically relevant to property we
 CSS works by selecting HTML elements and applying styling rules to them. The basic structure consists of **selectors** (which elements to style) and **declarations** (how to style them).
 
 **Basic CSS Pattern:**
+
+Let's say you have this HTML:
+
+```html
+<div class="property-card">
+  <h2>Spacious Family Home</h2>
+  <p>A beautiful home with a large garden.</p>
+</div>
+```
+
+Here's how you might style the heading within that property card using CSS:
+
 ```css
-selector {
-    property: value;
-    property: value;
+/* Selector: Targets all <h2> elements that are inside an element with the class "property-card" */
+.property-card h2 {
+  /* Declaration Block: Contains one or more declarations */
+
+  /* Declaration 1: Sets the text color to a dark blue */
+  /*   - 'color' is the CSS property */
+  /*   - '#2c3e50' is the value (a hex code for a color) */
+  color: #2c3e50;
+
+  /* Declaration 2: Sets the font size to 24 pixels */
+  /*   - 'font-size' is the CSS property */
+  /*   - '24px' is the value */
+  font-size: 24px;
 }
 ```
 
+**In this example:**
+
+- `".property-card h2"` is the **selector**.
+  - `.property-card` targets elements with the class `property-card`.
+  - `h2` (with a space before it) targets `<h2>` elements that are _descendants_ of `.property-card`.
+- `color: #2c3e50;` is a **declaration**.
+  - `color` is the **property** being changed.
+  - `#2c3e50` is the **value** for that property.
+- `font-size: 24px;` is another **declaration**.
+
 **Why this matters for property websites:**
+
 - Consistent styling across all property listings
 - Easy maintenance when design needs change
 - Professional appearance that builds trust
@@ -51,6 +87,7 @@ Understanding selectors helps you target specific elements precisely:
 **Descendant selectors**: Style elements within other elements
 
 **Property website selector examples:**
+
 - `.property-card`: Style all property listing cards
 - `.featured-property`: Highlight special property listings
 - `.price`: Style all price displays consistently
@@ -61,12 +98,14 @@ Understanding selectors helps you target specific elements precisely:
 The "Cascading" in CSS refers to how multiple style rules combine and override each other. Understanding this prevents styling conflicts and makes your code more predictable.
 
 **Specificity hierarchy (most to least specific):**
+
 1. Inline styles (avoid in professional development)
 2. IDs (use rarely)
 3. Classes and attributes (primary styling method)
 4. Elements (base styling)
 
 **Best practices for property websites:**
+
 - Use classes for most styling
 - Keep specificity low for easier maintenance
 - Organise CSS logically by component
@@ -79,12 +118,14 @@ The "Cascading" in CSS refers to how multiple style rules combine and override e
 Typography significantly impacts how users perceive and interact with property information:
 
 **Font selection principles:**
+
 - **Readability**: Choose fonts that are easy to read at various sizes
 - **Professional appearance**: Select fonts that convey trust and expertise
 - **Brand consistency**: Maintain consistent typography throughout the site
 - **Performance**: Limit the number of font families to improve loading speed
 
 **Typography hierarchy for property content:**
+
 - **Headings**: Clear distinction between different levels of information
 - **Body text**: Comfortable reading size and line spacing
 - **Property prices**: Prominent but not overwhelming
@@ -95,12 +136,14 @@ Typography significantly impacts how users perceive and interact with property i
 Colour choices influence user emotions and behaviour, particularly important for property websites:
 
 **Colour strategy considerations:**
+
 - **Trust and professionalism**: Blues and greys convey reliability
 - **Warmth and comfort**: Earth tones suggest home and comfort
 - **Urgency and attention**: Use red sparingly for calls-to-action
 - **Accessibility**: Ensure sufficient contrast for all users
 
 **Practical colour application:**
+
 - Consistent brand colours throughout the site
 - Neutral backgrounds that don't compete with property images
 - Clear distinction between different types of information
@@ -111,6 +154,7 @@ Colour choices influence user emotions and behaviour, particularly important for
 Visual hierarchy guides users through your content in order of importance:
 
 **Creating effective hierarchy:**
+
 - **Size**: Larger elements draw attention first
 - **Contrast**: High contrast elements stand out
 - **Colour**: Bright or unusual colours attract attention
@@ -122,6 +166,7 @@ Visual hierarchy guides users through your content in order of importance:
 ### Box Model Understanding
 
 Every HTML element is essentially a rectangular box with four key areas:
+
 - **Content**: The actual text or image
 - **Padding**: Space inside the element around the content
 - **Border**: Optional border around the element
@@ -134,12 +179,14 @@ Understanding the box model is crucial for creating precise layouts and avoiding
 Flexbox excels at arranging elements within containers, perfect for property card layouts:
 
 **Flexbox benefits for property websites:**
+
 - Easy alignment of property information
 - Flexible spacing that adapts to content
 - Simple creation of equal-height property cards
 - Responsive behaviour without media queries
 
 **Common property website flexbox patterns:**
+
 - Property card layouts with consistent spacing
 - Navigation bars with even distribution
 - Form layouts with proper alignment
@@ -150,12 +197,14 @@ Flexbox excels at arranging elements within containers, perfect for property car
 CSS Grid provides powerful two-dimensional layout capabilities, ideal for property website page structures:
 
 **Grid advantages for property websites:**
+
 - Complex layouts without complicated positioning
 - Responsive design that automatically adapts
 - Clean separation of content areas
 - Consistent alignment across different sections
 
 **Typical property website grid layouts:**
+
 - Header, main content, and sidebar arrangements
 - Property listing grids with consistent sizing
 - Dashboard layouts with multiple information panels
@@ -168,12 +217,14 @@ CSS Grid provides powerful two-dimensional layout capabilities, ideal for proper
 Property searches increasingly happen on mobile devices, making mobile-first design essential:
 
 **Mobile-first benefits:**
+
 - Better performance on slower mobile connections
 - Simplified content hierarchy
 - Touch-friendly interface design
 - Improved search engine rankings
 
 **Mobile-first implementation:**
+
 - Start with mobile layout and styling
 - Add enhancements for larger screens
 - Prioritise essential property information
@@ -184,11 +235,13 @@ Property searches increasingly happen on mobile devices, making mobile-first des
 Media queries enable different styling for different screen sizes:
 
 **Common breakpoint strategy:**
+
 - **Small screens (mobile)**: 320px - 768px
 - **Medium screens (tablets)**: 768px - 1024px
 - **Large screens (desktop)**: 1024px and above
 
 **Responsive property website considerations:**
+
 - Property card layouts that stack appropriately
 - Navigation that works on touch devices
 - Images that load efficiently on all connections
@@ -199,6 +252,7 @@ Media queries enable different styling for different screen sizes:
 Property websites are image-heavy, requiring careful responsive media strategies:
 
 **Responsive image techniques:**
+
 - Flexible sizing that maintains aspect ratios
 - Different image sizes for different screen sizes
 - Optimised loading for better performance
@@ -211,6 +265,7 @@ Property websites are image-heavy, requiring careful responsive media strategies
 Property cards are central components of property websites, requiring careful design attention:
 
 **Essential property card elements:**
+
 - Property image with consistent aspect ratio
 - Clear property title and location
 - Prominent price display
@@ -219,6 +274,7 @@ Property cards are central components of property websites, requiring careful de
 - Professional layout with appropriate spacing
 
 **Design considerations:**
+
 - Consistent sizing across different property types
 - Hover effects that provide user feedback
 - Loading states for dynamic content
@@ -229,6 +285,7 @@ Property cards are central components of property websites, requiring careful de
 Well-designed forms improve user engagement and completion rates:
 
 **Form styling priorities:**
+
 - Clear visual indication of required fields
 - Consistent styling across all form elements
 - Appropriate spacing for easy interaction
@@ -236,6 +293,7 @@ Well-designed forms improve user engagement and completion rates:
 - Error styling that helps users fix problems
 
 **Property-specific form considerations:**
+
 - Search forms that are easy to use quickly
 - Contact forms that build trust and professionalism
 - Application forms that handle complex information
@@ -246,12 +304,14 @@ Well-designed forms improve user engagement and completion rates:
 Navigation design significantly impacts user experience:
 
 **Navigation design principles:**
+
 - Clear indication of current page location
 - Consistent styling across all pages
 - Touch-friendly sizing for mobile devices
 - Logical organisation of property categories
 
 **Interactive element considerations:**
+
 - Hover states that provide clear feedback
 - Loading indicators for slow operations
 - Smooth transitions that feel professional
@@ -264,6 +324,7 @@ Navigation design significantly impacts user experience:
 Well-organised CSS becomes increasingly important as property websites grow:
 
 **Organisation strategies:**
+
 - Component-based CSS that matches HTML structure
 - Consistent naming conventions across the project
 - Separation of layout, component, and utility styles
@@ -274,6 +335,7 @@ Well-organised CSS becomes increasingly important as property websites grow:
 CSS performance affects user experience, particularly on mobile devices:
 
 **Performance optimization techniques:**
+
 - Minimise the number of CSS files
 - Remove unused CSS rules
 - Optimise CSS delivery for faster rendering
@@ -284,6 +346,7 @@ CSS performance affects user experience, particularly on mobile devices:
 Ensuring consistent appearance across different browsers:
 
 **Compatibility strategies:**
+
 - Test on major browsers used by your audience
 - Use CSS features with broad browser support
 - Provide fallbacks for newer CSS features
@@ -292,21 +355,27 @@ Ensuring consistent appearance across different browsers:
 ## Practical Exercises
 
 ### Exercise 1: Property Card Component
+
 Create a complete property card component:
+
 1. Design the layout structure using flexbox
 2. Style all text elements with appropriate hierarchy
 3. Add hover effects and interactive states
 4. Test responsive behaviour on different screen sizes
 
 ### Exercise 2: Responsive Property Gallery
+
 Build a responsive property image gallery:
+
 1. Create a grid layout that adapts to screen size
 2. Implement proper image sizing and aspect ratios
 3. Add navigation and interaction states
 4. Optimise for touch devices
 
 ### Exercise 3: Complete Property Website Layout
+
 Develop a full property website layout:
+
 1. Create header, main content, and footer areas
 2. Implement responsive navigation
 3. Style property listing pages
@@ -326,6 +395,7 @@ This module established comprehensive CSS skills for creating professional prope
 These CSS skills enable you to transform basic HTML structure into professional, engaging property websites that work effectively across all devices and provide excellent user experiences.
 
 ## Navigation
+
 - [← Previous: Module 0.2 - HTML Fundamentals](./Module-0.2-HTML-Fundamentals.md)
 - [Next: Module 0.4 - Version Control: Git and GitHub →](./Module-0.4-Version-Control-Git-GitHub.md)
 - [↑ Back to Phase 0 Overview](./README.md)

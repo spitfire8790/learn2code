@@ -1,7 +1,9 @@
 # Module 1.3: TypeScript Integration
 
 ## Learning Objectives
+
 By the end of this module, you will be able to:
+
 - Understand TypeScript's role in building reliable property applications
 - Implement type-safe development practices for property data management
 - Design effective type systems for complex property analysis workflows
@@ -9,6 +11,7 @@ By the end of this module, you will be able to:
 - Build scalable property applications with confidence through static typing
 
 ## Prerequisites
+
 - Completion of Module 1.1: Core Web Development Stack
 - Completion of Module 1.2: Styling and UI Framework
 - Strong understanding of JavaScript ES6+ features
@@ -37,7 +40,7 @@ JavaScript's dynamic nature is both a strength and a weakness. While it enables 
 
 **How TypeScript helps:**
 
-TypeScript analyzes your code before it runs, identifying potential issues and providing intelligent suggestions. This is particularly valuable for property applications because:
+TypeScript analyses your code before it runs, identifying potential issues and providing intelligent suggestions. This is particularly valuable for property applications because:
 
 - **Financial accuracy**: Property value calculations must be precise
 - **Data reliability**: Property information comes from multiple sources with varying formats
@@ -303,21 +306,27 @@ Deploying TypeScript-based property applications:
 ## Practical Exercises
 
 ### Exercise 1: Property Data Modeling
+
 Design a comprehensive type system for property data:
+
 1. Create interfaces for different property types and their specific characteristics
 2. Design union types for property status, zones, and classifications
 3. Implement type-safe property data transformation functions
 4. Build validation utilities that ensure data integrity
 
 ### Exercise 2: Property Analysis Calculator
+
 Build a type-safe property analysis system:
+
 1. Design interfaces for different types of property calculations
 2. Implement type-safe functions for yield, ROI, and market analysis
 3. Create generic utilities for different calculation scenarios
 4. Add proper error handling for edge cases and invalid data
 
 ### Exercise 3: Property Search Interface
+
 Develop a type-safe property search system:
+
 1. Design types for complex search criteria and filters
 2. Build type-safe API integration for property data
 3. Create reusable search components with proper typing
@@ -338,6 +347,7 @@ This module established comprehensive TypeScript skills essential for reliable p
 These TypeScript skills enable you to build property applications with confidence, knowing that many potential errors are caught during development rather than discovered by users in production.
 
 ## Navigation
+
 - [← Previous: Module 1.2 - Styling and UI Framework](./Module-1.2-Styling-and-UI-Framework.md)
 - [Next: Phase 2 - React Development Mastery →](../Phase-2-React-Development-Mastery/README.md)
 - [↑ Back to Phase 1 Overview](./README.md)
